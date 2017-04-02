@@ -32,6 +32,8 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	walk.frames.push_back({ 536, 26, 20, 36 });
 	walk.frames.push_back({ 561, 30, 33, 29 });
 	walk.speed = 0.1f;
+
+	AnimStatus = IDLE_RIGHT;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -63,40 +65,81 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	// Calculate next position
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+	if (AnimStatus == WALKING_LEFT) 
+	{
+		AnimStatus = IDLE_LEFT;
+	}
+	else if (AnimStatus == WALKING_RIGHT) 
+	{
+		AnimStatus = IDLE_RIGHT;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		position.x += 2;
+		AnimStatus = WALKING_RIGHT;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		position.x -= 2;
+		AnimStatus = WALKING_LEFT;
 	}
-
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && position.y > 85) {
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && position.y > 85 /*Limit to vertical movement*/) {
 		position.y -= 0.2;
-		LOG("Position: %d\n", position.y);
+		if (AnimStatus == IDLE_LEFT)
+		{
+			AnimStatus = WALKING_LEFT;
+		}
+		else if (AnimStatus == IDLE_RIGHT)
+		{
+			AnimStatus = WALKING_RIGHT;
+		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && position.y < 120) {
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && position.y < 120/*Limit to vertical movement*/) {
 		position.y += 1.8;
-		LOG("Position: %d\n", position.y);
+		if (AnimStatus == IDLE_LEFT)
+		{
+			AnimStatus = WALKING_LEFT;
+		}
+		else if (AnimStatus == IDLE_RIGHT)
+		{
+			AnimStatus = WALKING_RIGHT;
+		}
 	}
 	// make sure to detect player movement and change its
 	// position while cycling the animation(check Animation.h)
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f); // Idle when pression A and D at the same time
+		if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
+		{
+			AnimStatus = IDLE_LEFT;
+		}
+		if (AnimStatus == IDLE_RIGHT || AnimStatus == WALKING_RIGHT)
+		{
+			AnimStatus = IDLE_RIGHT;
+		} // Idle when pression A and D at the same time
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+		if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
+		{
+			AnimStatus = IDLE_LEFT;
+		}
+		else if (AnimStatus == IDLE_RIGHT || AnimStatus == WALKING_RIGHT)
+		{
+			AnimStatus = IDLE_RIGHT;
+		} // Idle when pression A and D at the same time
+	}
+	
+	if (AnimStatus == WALKING_RIGHT) {
 		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f); // Walk Right
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+	else if (AnimStatus == WALKING_LEFT) {
 		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f,true);//Walk Left
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f);// Walk Up
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f); // Walk down
-	}
-	else{
+	else if (AnimStatus == IDLE_RIGHT){
 		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f); // Idle
+	}
+	else if (AnimStatus == IDLE_LEFT) {
+		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f,true); // Idle
 	}
 	return UPDATE_CONTINUE;
 }

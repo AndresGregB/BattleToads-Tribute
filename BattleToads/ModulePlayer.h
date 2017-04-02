@@ -7,7 +7,15 @@
 #include "Point.h"
 
 struct SDL_Texture;
-
+enum anim_status
+{
+	IDLE_RIGHT,
+	IDLE_LEFT,
+	WALKING_RIGHT,
+	WALKING_LEFT,
+	JUMPING,
+	ATTACKING
+};
 class ModulePlayer : public Module
 {
 public:
@@ -25,6 +33,8 @@ public:
 	Animation backward;
 	Animation walk;
 	iPoint position;
+	float coordZ;
+	anim_status AnimStatus;
 };
 
 #endif // __MODULEPLAYER_H__
