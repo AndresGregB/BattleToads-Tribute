@@ -8,7 +8,7 @@
 
 ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
-	position.x = 150;
+	position.x = 3300;
 	position.y = 110;
 
 	idle.frames.push_back({36, 23, 26, 34});
@@ -62,18 +62,41 @@ bool ModulePlayer::CleanUp()
 // Update
 update_status ModulePlayer::Update()
 {
-	// TODO 9: Draw the player with its animation
-	// make sure to detect player movement and change its
-	// position while cycling the animation(check Animation.h)
+	// Calculate next position
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f);
 		position.x += 2;
-	}else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f,true);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		position.x -= 2;
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && position.y > 85) {
+		position.y -= 0.2;
+		LOG("Position: %d\n", position.y);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && position.y < 120) {
+		position.y += 1.8;
+		LOG("Position: %d\n", position.y);
+	}
+	// make sure to detect player movement and change its
+	// position while cycling the animation(check Animation.h)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f); // Idle when pression A and D at the same time
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f); // Walk Right
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f,true);//Walk Left
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f);// Walk Up
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f); // Walk down
+	}
 	else{
-		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f);
+		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f); // Idle
 	}
 	return UPDATE_CONTINUE;
 }

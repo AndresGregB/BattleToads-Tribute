@@ -52,6 +52,26 @@ update_status ModuleRender::Update()
 {
 	int speed = 5;
 	// debug camera
+	// Locking camera for map limits
+	// Left limit
+	if (App->player->position.x<150)
+	{
+		cameraLocked = true;
+	}
+	if (App->player->position.x>150 && App->player->position.x<170)
+	{
+		cameraLocked = false;
+	}
+	//Right Limit
+	if (App->player->position.x>3400)
+	{
+		cameraLocked = true;
+	}
+	if (App->player->position.x<3400 && App->player->position.x>3370)
+	{
+		cameraLocked = false;
+	}
+
 	if (!cameraLocked) {
 		camera.x = App->player->position.x * -3 + 400;
 	}
