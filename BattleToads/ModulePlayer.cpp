@@ -6,21 +6,18 @@
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
-	position.x = 100;
+	position.x = 150;
 	position.y = 110;
 
-	// idle animation (arcade sprite sheet)
-	idle.frames.push_back({7, 14, 60, 90});
-	idle.frames.push_back({95, 15, 60, 89});
-	idle.frames.push_back({184, 14, 60, 90});
-	idle.frames.push_back({276, 11, 60, 93});
-	idle.frames.push_back({366, 12, 60, 92});
-	idle.speed = 0.2f;
+	idle.frames.push_back({36, 23, 26, 34});
+	idle.frames.push_back({69, 23, 26, 34 });
+	idle.frames.push_back({ 36, 23, 26, 34 });
+	idle.frames.push_back({ 36, 23, 26, 34 });
+	idle.frames.push_back({ 69, 23, 26, 34 });
+	idle.speed = 0.04f;
 	
-	// walk backward animation (arcade sprite sheet)
 	backward.frames.push_back({542, 131, 61, 87});
 	backward.frames.push_back({628, 129, 59, 90});
 	backward.frames.push_back({713, 128, 57, 90});
@@ -29,14 +26,12 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	backward.frames.push_back({974, 129, 57, 89});
 	backward.speed = 0.2f;
 
-	// TODO 8: setup the walk forward animation from ryu4.png
-	walk.frames.push_back({ 9, 131, 61, 87 });
-	walk.frames.push_back({ 78, 129, 61, 90 });
-	walk.frames.push_back({ 160, 128, 61, 90 });
-	walk.frames.push_back({ 260, 127, 61, 90 });
-	walk.frames.push_back({ 351, 128, 61, 91 });
-	walk.frames.push_back({ 431, 129, 61, 89 });
-	walk.speed = 0.2f;
+	walk.frames.push_back({ 437, 26, 28, 33 });
+	walk.frames.push_back({ 467, 26, 25, 33 });
+	walk.frames.push_back({ 499, 30, 33, 30 });
+	walk.frames.push_back({ 536, 26, 20, 36 });
+	walk.frames.push_back({ 561, 30, 33, 29 });
+	walk.speed = 0.1f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -49,7 +44,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("ryu4.png"); // arcade version
+	graphics = App->textures->Load("./Sprites/rash.png");
 
 	return true;
 }
@@ -72,11 +67,12 @@ update_status ModulePlayer::Update()
 	// position while cycling the animation(check Animation.h)
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f);
-		position.x += 2;;
+		position.x += 2;
 	}else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		--position.x;
-		App->renderer->Blit(graphics, position.x, position.y, &(backward.GetCurrentFrame()), 1.0f);
-	}else{
+		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f,true);
+		position.x -= 2;
+	}
+	else{
 		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f);
 	}
 	return UPDATE_CONTINUE;

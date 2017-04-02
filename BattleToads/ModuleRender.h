@@ -20,11 +20,12 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed = 1.0f);
+	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, bool flipH = false);
 
 public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_Rect camera;
+	bool cameraLocked;
 };
 
 #endif // __MODULERENDER_H__

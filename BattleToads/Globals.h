@@ -35,11 +35,13 @@ enum update_status
 	 }
 
 // Configuration -----------
-#define SCREEN_WIDTH 384
-#define SCREEN_HEIGHT 224
-#define SCREEN_SIZE 2
+#define SCREEN_WIDTH 280
+#define SCREEN_HEIGHT 175
+#define SCREEN_SIZE 3
+#define SCREEN_POSITION_X 30
+#define SCREEN_POSITION_Y 30
 #define FULLSCREEN false
 #define VSYNC true
-#define TITLE "Super Awesome Game"
+#define TITLE "BattleToads Inferno Level"
 
 #endif //__GLOBALS_H__

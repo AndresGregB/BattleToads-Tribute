@@ -111,7 +111,7 @@ update_status ModuleSceneKen::Update()
 	// using FadeToBlack module
 	++frames;
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-		App->fade->FadeToBlack((Module*)(App->scene_honda), (Module*)(App->scene_ken), 3.0f);
+		App->fade->FadeToBlack((Module*)(App->scene_inferno), (Module*)(App->scene_ken), 3.0f);
 		
 	}
 	return UPDATE_CONTINUE;
