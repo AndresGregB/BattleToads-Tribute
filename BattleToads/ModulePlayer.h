@@ -14,7 +14,9 @@ enum anim_status
 	WALKING_RIGHT,
 	WALKING_LEFT,
 	JUMPING,
-	ATTACKING
+	ATTACKING,
+	JUMPING_RIGHT,
+	JUMPING_LEFT
 };
 class ModulePlayer : public Module
 {
@@ -32,9 +34,12 @@ public:
 	Animation idle;
 	Animation backward;
 	Animation walk;
+	Animation jump;
 	iPoint position;
 	float coordZ;
 	anim_status AnimStatus;
+	bool jumping;
+	float floorY;
 };
 
 #endif // __MODULEPLAYER_H__

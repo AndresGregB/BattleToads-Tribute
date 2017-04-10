@@ -67,9 +67,9 @@ update_status ModuleSceneInferno::Update()
 	// TODO 11: Make that pressing space triggers a switch to honda logic module
 	// using FadeToBlack module
 	++frames;
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		
-		App->fade->FadeToBlack((Module*)(App->scene_ken), (Module*)(App->scene_inferno), 3.0f);
+		App->fade->FadeToBlack((Module*)(App->scene_ken), (Module*)(App->scene_inferno), 3.0f);*/
 		
 	return UPDATE_CONTINUE;
 }

@@ -1,13 +1,12 @@
 #pragma once
 #include <vector>
 
-using namespace std;
 
 class Animation
 {
 public:
 	float speed;
-	vector<SDL_Rect> frames;
+	std::vector<SDL_Rect> frames;
 
 private:
 	float current_frame;
