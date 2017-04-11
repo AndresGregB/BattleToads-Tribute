@@ -5,8 +5,8 @@
 #include "Globals.h"
 #include "Module.h"
 #include "ModulePlayer.h"
+#include "ModuleRender.h"
 
-class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
@@ -14,6 +14,7 @@ class ModuleAudio;
 class ModuleFadeToBlack;
 class ModuleSceneKen;
 class ModuleSceneInferno;
+class ModuleCollisions;
 
 class Application
 {
@@ -36,6 +37,7 @@ public:
 	ModulePlayer* player;
 	ModuleSceneKen* scene_ken;
 	ModuleSceneInferno* scene_inferno;
+	ModuleCollisions* collisions;
 
 private:
 

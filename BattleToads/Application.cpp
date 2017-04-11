@@ -8,6 +8,7 @@
 #include "ModuleSceneKen.h"
 #include "ModuleSceneInferno.h"
 #include "ModulePlayer.h"
+#include "ModuleCollisions.h"
 
 
 Application::Application()
@@ -25,6 +26,7 @@ Application::Application()
 	modules.push_back(scene_inferno = new ModuleSceneInferno(false));
 	modules.push_back(player = new ModulePlayer(false));
 	modules.push_back(fade = new ModuleFadeToBlack());
+	modules.push_back(collisions = new ModuleCollisions());
 }
 
 Application::~Application()

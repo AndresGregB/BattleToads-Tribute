@@ -63,11 +63,11 @@ update_status ModuleRender::Update()
 		cameraLocked = false;
 	}
 	//Right Limit
-	if (App->player->position.x>3400)
+	if (App->player->position.x>2500)
 	{
 		cameraLocked = true;
 	}
-	if (App->player->position.x<3400 && App->player->position.x>3370)
+	if (App->player->position.x<2500 && App->player->position.x>2470)
 	{
 		cameraLocked = false;
 	}
@@ -94,6 +94,7 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
+	
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
 }

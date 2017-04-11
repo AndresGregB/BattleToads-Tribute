@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "Globals.h"
 #include "Point.h"
+#include "Hitbox.h"
 
 struct SDL_Texture;
 enum anim_status
@@ -35,12 +36,16 @@ public:
 	Animation backward;
 	Animation walk;
 	Animation jump;
+
 	iPoint position;
 	float speedY;
 	float coordZ;
 	int jumpSpeed;
 	int moveSpeed;
+
 	int playerZone;
+	Hitbox* playerHitbox;
+
 	anim_status AnimStatus;
 	bool jumping;
 	float floorY;

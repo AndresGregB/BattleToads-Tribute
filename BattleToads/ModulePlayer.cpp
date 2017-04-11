@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "ModuleInput.h"
@@ -8,8 +7,16 @@
 
 ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
-	position.x = 3300;
+	position.x = 1500;
 	position.y = 110;
+	SDL_Rect PHitbox;
+
+	PHitbox.x = position.x;
+	PHitbox.y = position.y;
+	PHitbox.w = 26;
+	PHitbox.h = 34;
+
+	playerHitbox = new Hitbox(PHitbox, 1.0f);
 
 	idle.frames.push_back({36, 23, 26, 34});
 	idle.frames.push_back({69, 23, 26, 34 });
@@ -113,7 +120,7 @@ update_status ModulePlayer::Update()
 	}
 
 	// Calculating new position for the player in next frame.
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumping) {
 		// This if is empty so the AnimStatus does not change when pressing A and D at the same time
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
@@ -138,7 +145,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && position.y > 85 && coordZ > -3.5/*Limit to vertical movement*/) {
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT  && coordZ > -3.5/*Limit to vertical movement*/) {
 		position.y -= 0.2;
 		coordZ -= 0.1;
 		if (AnimStatus == IDLE_LEFT)
@@ -150,7 +157,7 @@ update_status ModulePlayer::Update()
 			AnimStatus = WALKING_RIGHT;
 		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && position.y < 120 && coordZ < 0/*Limit to vertical movement*/) {
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT  && coordZ < 0/*Limit to vertical movement*/) {
 		position.y += 1.8;
 		coordZ += 0.1;
 		if (AnimStatus == IDLE_LEFT)
@@ -163,7 +170,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumping) {
 		if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
 		{
 			AnimStatus = IDLE_LEFT;
@@ -173,7 +180,7 @@ update_status ModulePlayer::Update()
 			AnimStatus = IDLE_RIGHT;
 		} // Idle when pressing A and D at the same time
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !jumping) {
 		if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
 		{
 			AnimStatus = IDLE_LEFT;
@@ -204,7 +211,21 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f,true); // Idle
 	}
 	position.y += (int)speedY;
-	LOG("Y calc: %f \n", 120 + coordZ*10);
-	LOG("Y: %f \n", coordZ);
+
+
+	// Update player's hitbox
+	playerHitbox->hitBox.x = position.x;
+	playerHitbox->hitBox.y = position.y;
+	playerHitbox->draw(App->renderer->renderer);
+
+	/*SDL_Rect auxRect;
+	auxRect.x = 1315;
+	auxRect.y = 110;
+	auxRect.w = 183;
+	auxRect.h = 50;
+	Hitbox auxHitBox(auxRect,1.0f);*/
+	//auxHitBox.draw(App->renderer->renderer);
+	/*LOG("Y calc: %f \n", 120 + coordZ*10);
+	LOG("Y: %f \n", coordZ);*/
 	return UPDATE_CONTINUE;
 }

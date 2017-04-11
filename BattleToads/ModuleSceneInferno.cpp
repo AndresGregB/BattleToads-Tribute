@@ -53,7 +53,7 @@ update_status ModuleSceneInferno::Update()
 {
 	// Draw everything --------------------------------------
 	//// TODO 1: Tweak the movement speed of the sea&sky + flag to your taste
-	App->renderer->Blit(graphics, 0, 0, &background, 0.75f); // sea and sky
+	App->renderer->Blit(graphics, 0, 0, &background, 1.0f); // sea and sky
 	//App->renderer->Blit(graphics, 560, 8, &(flag.GetCurrentFrame()), 0.75f); // flag animation
 	//App->renderer->Blit(graphics, 0, boatH, &ship, 0.75f);
 	//App->renderer->Blit(graphics, 192, boatH + 103, &(girl.GetCurrentFrame()), 0.75f);

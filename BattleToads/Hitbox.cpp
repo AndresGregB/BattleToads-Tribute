@@ -1,10 +1,11 @@
 #include "Hitbox.h"
+#include "Application.h"
 
 
-
-Hitbox::Hitbox(SDL_Rect Rect)
+Hitbox::Hitbox(SDL_Rect Rect, float s)
 {
 	hitBox = Rect;
+	speed = s;
 }
 
 
@@ -26,5 +27,25 @@ bool Hitbox::checkIntersection(const SDL_Rect target)
 }
 void Hitbox::draw(SDL_Renderer* renderer)
 {
-	SDL_RenderDrawRect(renderer, &hitBox);
+	
+		if (checkIntersection(App->player->playerHitbox->hitBox))
+		{
+			if (!(hitBox.x == App->player->playerHitbox->hitBox.x)) {
+				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+				LOG("X1 %d, Y1 %d, W1 %d, H1 %d \n", hitBox.x, hitBox.y, hitBox.w, hitBox.h);
+				LOG("X1 %d, Y1 %d, W1 %d, H1 %d \n", App->player->playerHitbox->hitBox.x, App->player->playerHitbox->hitBox.y, App->player->playerHitbox->hitBox.w, App->player->playerHitbox->hitBox.h);
+			}
+		}
+		else
+		{
+			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		}
+	
+	SDL_Rect aux;
+	aux.x = (int)(App->renderer->camera.x * speed) + hitBox.x *SCREEN_SIZE;
+	aux.y = (int)(App->renderer->camera.y * speed) + hitBox.y *SCREEN_SIZE;
+	aux.w = hitBox.w*SCREEN_SIZE;
+	aux.h = hitBox.h*SCREEN_SIZE;
+	//SDL_RenderFillRect(renderer, &App->player->playerHitbox->hitBox);
+	SDL_RenderDrawRect(renderer, &aux);
 }
