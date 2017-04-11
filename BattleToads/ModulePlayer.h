@@ -36,7 +36,10 @@ public:
 	Animation walk;
 	Animation jump;
 	iPoint position;
+	float speedY;
 	float coordZ;
+	int jumpSpeed;
+	int moveSpeed;
 	anim_status AnimStatus;
 	bool jumping;
 	float floorY;

@@ -31,13 +31,16 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	walk.frames.push_back({ 499, 30, 33, 30 });
 	walk.frames.push_back({ 536, 26, 20, 36 });
 	walk.frames.push_back({ 561, 30, 33, 29 });
-	walk.speed = 0.1f;
+	walk.speed = 0.2f;
 
 	jump.frames.push_back({ 415, 167, 46, 25 });
 	AnimStatus = IDLE_RIGHT;
 	jumping = false;
 	coordZ = -1.0;
 	floorY = 120 + coordZ * 10; // Mapping the floor height with the coordZ
+	speedY = 0;
+	jumpSpeed = -5;
+	moveSpeed = 4;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -68,19 +71,44 @@ bool ModulePlayer::CleanUp()
 // Update
 update_status ModulePlayer::Update()
 {
-	// Assing Animation default status
+	
 	floorY = 120 + coordZ * 10;
-
-	if (AnimStatus == WALKING_LEFT) 
+	if (position.y >= (int)floorY) 
 	{
-		AnimStatus = IDLE_LEFT;
-	}
-	else if (AnimStatus == WALKING_RIGHT) 
+		jumping = false;
+		speedY = 0;
+	} 
+	if (jumping) 
 	{
-		AnimStatus = IDLE_RIGHT;
+		speedY += GRAVITY;
+	} 
+	// Assing Animation default status
+	if (AnimStatus == WALKING_LEFT || AnimStatus == JUMPING_LEFT)
+	{
+		if (jumping) 
+		{
+			AnimStatus = JUMPING_LEFT;
+		}
+		else 
+		{
+			AnimStatus = IDLE_LEFT;
+		}
+		
 	}
-	if (App->input->GetKey(SDL_SCANCODE_SPACE)== KEY_DOWN) {
+	else if (AnimStatus == WALKING_RIGHT || AnimStatus == JUMPING_RIGHT)
+	{
+		if (jumping)
+		{
+			AnimStatus = JUMPING_RIGHT;
+		}
+		else
+		{
+			AnimStatus = IDLE_RIGHT;
+		}
+	}
+	if (App->input->GetKey(SDL_SCANCODE_SPACE)== KEY_DOWN && !jumping) {
 		jumping = true;
+		speedY = jumpSpeed;
 	}
 
 	// Calculating new position for the player in next frame.
@@ -88,7 +116,7 @@ update_status ModulePlayer::Update()
 		// This if is empty so the AnimStatus does not change when pressing A and D at the same time
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		position.x += 2;
+		position.x += moveSpeed;
 		if (jumping) 
 		{
 			AnimStatus = JUMPING_RIGHT;
@@ -99,7 +127,7 @@ update_status ModulePlayer::Update()
 		
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		position.x -= 2;
+		position.x -= moveSpeed;
 		if (jumping)
 		{
 			AnimStatus = JUMPING_LEFT;
@@ -109,7 +137,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && position.y > 85 /*Limit to vertical movement*/) {
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && position.y > 85 && coordZ > -3.5/*Limit to vertical movement*/) {
 		position.y -= 0.2;
 		coordZ -= 0.1;
 		if (AnimStatus == IDLE_LEFT)
@@ -121,7 +149,7 @@ update_status ModulePlayer::Update()
 			AnimStatus = WALKING_RIGHT;
 		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && position.y < 120/*Limit to vertical movement*/) {
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && position.y < 120 && coordZ < 0/*Limit to vertical movement*/) {
 		position.y += 1.8;
 		coordZ += 0.1;
 		if (AnimStatus == IDLE_LEFT)
@@ -174,7 +202,8 @@ update_status ModulePlayer::Update()
 	else if (AnimStatus == IDLE_LEFT) {
 		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f,true); // Idle
 	}
+	position.y += (int)speedY;
 	LOG("Y calc: %f \n", 120 + coordZ*10);
-	LOG("Y: %d \n", position.y);
+	LOG("Y: %f \n", coordZ);
 	return UPDATE_CONTINUE;
 }

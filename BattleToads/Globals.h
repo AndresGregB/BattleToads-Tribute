@@ -43,5 +43,6 @@ enum update_status
 #define FULLSCREEN false
 #define VSYNC true
 #define TITLE "BattleToads Inferno Level"
+#define GRAVITY 0.25
 
 #endif //__GLOBALS_H__
