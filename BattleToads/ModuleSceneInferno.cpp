@@ -8,6 +8,7 @@
 #include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
 #include "SDL/include/SDL.h"
+#include <math.h>
 
 
 ModuleSceneInferno::ModuleSceneInferno(bool start_enabled) : Module(start_enabled)
@@ -17,6 +18,8 @@ ModuleSceneInferno::ModuleSceneInferno(bool start_enabled) : Module(start_enable
 	background.y = 17;
 	background.w = 2820;
 	background.h = 176;
+
+	
 
 }
 
@@ -34,6 +37,44 @@ bool ModuleSceneInferno::Start()
 	frames = 0;
 	boatH = 0;
 	signo = 1;
+
+	// Platform 1
+	SDL_Rect auxRect;
+	auxRect.x = 1150;
+	auxRect.y = 110;
+	auxRect.w = 20;
+	auxRect.h = 50;
+	platform1 = new movingPlantform;
+	platform1->platformHitbox = new Hitbox(auxRect, 1.0f);
+	platform1->speed = 1.0f;
+	platform1->amplitude = 100.0f;
+	App->collisions->addHitbox(platform1->platformHitbox);
+	platform1->position.x = 1150;
+	platform1->position.y = 110;
+	platform1->variation = 7.0f;
+
+	// Platform 2
+	auxRect.x = 1400;
+	platform2 = new movingPlantform;
+	platform2->platformHitbox = new Hitbox(auxRect, 1.0f);
+	platform2->speed = 1.0f;
+	platform2->amplitude = 100.0f;
+	App->collisions->addHitbox(platform2->platformHitbox);
+	platform2->position.x = 1400;
+	platform2->position.y = 110;
+	platform2->variation = 5.0f;
+
+	// Platform 3
+	auxRect.x = 1650;
+	platform3 = new movingPlantform;
+	platform3->platformHitbox = new Hitbox(auxRect, 1.0f);
+	platform3->speed = 100.0f;
+	platform3->amplitude = 1.0f;
+	App->collisions->addHitbox(platform3->platformHitbox);
+	platform3->position.x = 1650;
+	platform3->position.y = 110;
+	platform3->variation = 3.0f;
+	
 	return true;
 }
 
@@ -51,25 +92,15 @@ bool ModuleSceneInferno::CleanUp()
 // Update: draw background
 update_status ModuleSceneInferno::Update()
 {
-	// Draw everything --------------------------------------
-	//// TODO 1: Tweak the movement speed of the sea&sky + flag to your taste
+	updatePlatform(platform1);
+	updatePlatform(platform2);
+	updatePlatform(platform3);
+
 	App->renderer->Blit(graphics, 0, 0, &background, 1.0f); // sea and sky
-	//App->renderer->Blit(graphics, 560, 8, &(flag.GetCurrentFrame()), 0.75f); // flag animation
-	//App->renderer->Blit(graphics, 0, boatH, &ship, 0.75f);
-	//App->renderer->Blit(graphics, 192, boatH + 103, &(girl.GetCurrentFrame()), 0.75f);
-
-	// TODO 6: Draw the girl. Make sure it follows the ship movement!
-
-	//App->renderer->Blit(graphics, 0, 170, &ground, 1.0f);
-	// TODO 10: Build an entire new scene "honda", you can find its
-	// and music in the Game/ folder
-
-	// TODO 11: Make that pressing space triggers a switch to honda logic module
-	// using FadeToBlack module
-	++frames;
-	/*if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		
-		App->fade->FadeToBlack((Module*)(App->scene_ken), (Module*)(App->scene_inferno), 3.0f);*/
-		
+	++frames;	
 	return UPDATE_CONTINUE;
+}
+void ModuleSceneInferno::updatePlatform(movingPlantform* plat)
+{
+	plat->platformHitbox->hitBox.x = plat->position.x + 80 * sin((double)(SDL_GetTicks()/10)*0.01 + plat->variation);
 }

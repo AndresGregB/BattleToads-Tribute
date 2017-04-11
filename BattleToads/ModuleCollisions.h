@@ -14,11 +14,12 @@ public:
 	~ModuleCollisions();
 
 	// Zones
-	std::list<Hitbox*> zone1;
+	std::list<Hitbox*> levelLayout;
 
 	void ModuleCollisions::drawHitboxes();
 	bool ModuleCollisions::CleanUp();
 	update_status ModuleCollisions::Update();
+	void ModuleCollisions::addHitbox(Hitbox* hitBox);
 
 };
 #endif

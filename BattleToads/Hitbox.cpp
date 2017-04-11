@@ -32,8 +32,7 @@ void Hitbox::draw(SDL_Renderer* renderer)
 		{
 			if (!(hitBox.x == App->player->playerHitbox->hitBox.x)) {
 				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-				LOG("X1 %d, Y1 %d, W1 %d, H1 %d \n", hitBox.x, hitBox.y, hitBox.w, hitBox.h);
-				LOG("X1 %d, Y1 %d, W1 %d, H1 %d \n", App->player->playerHitbox->hitBox.x, App->player->playerHitbox->hitBox.y, App->player->playerHitbox->hitBox.w, App->player->playerHitbox->hitBox.h);
+				
 			}
 		}
 		else

@@ -7,6 +7,15 @@
 
 struct SDL_Texture;
 
+struct movingPlantform 
+{
+	Hitbox* platformHitbox;
+	float speed = 1.0f;
+	float amplitude;
+	float variation;
+	iPoint position;
+};
+
 class ModuleSceneInferno : public Module
 {
 public:
@@ -16,6 +25,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void ModuleSceneInferno::updatePlatform(movingPlantform* plat);
 
 public:
 
@@ -28,6 +38,7 @@ public:
 	int boatH;
 	int frames;
 	int signo;
+	movingPlantform* platform1, *platform2, *platform3;
 };
 
 #endif

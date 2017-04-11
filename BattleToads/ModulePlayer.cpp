@@ -7,7 +7,7 @@
 
 ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
-	position.x = 1500;
+	position.x = 1800;
 	position.y = 110;
 	SDL_Rect PHitbox;
 

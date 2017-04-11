@@ -6,6 +6,7 @@
 #include "Module.h"
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
+#include "ModuleCollisions.h"
 
 class ModuleWindow;
 class ModuleTextures;
@@ -14,7 +15,6 @@ class ModuleAudio;
 class ModuleFadeToBlack;
 class ModuleSceneKen;
 class ModuleSceneInferno;
-class ModuleCollisions;
 
 class Application
 {
