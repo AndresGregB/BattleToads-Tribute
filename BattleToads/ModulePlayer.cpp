@@ -79,7 +79,7 @@ bool ModulePlayer::CleanUp()
 // Update
 update_status ModulePlayer::Update()
 {
-	
+	// TODO: Add colission with level layout and "grounded" boolean for the player
 	floorY = 120 + coordZ * 10;
 	if (position.y >= (int)floorY) 
 	{
