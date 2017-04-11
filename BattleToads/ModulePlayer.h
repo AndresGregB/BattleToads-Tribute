@@ -40,6 +40,7 @@ public:
 	float coordZ;
 	int jumpSpeed;
 	int moveSpeed;
+	int playerZone;
 	anim_status AnimStatus;
 	bool jumping;
 	float floorY;

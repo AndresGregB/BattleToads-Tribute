@@ -58,6 +58,9 @@
     <ClInclude Include="ModuleSceneInferno.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Hitbox.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -94,6 +97,9 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleSceneInferno.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Hitbox.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>

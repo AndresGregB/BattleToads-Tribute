@@ -41,6 +41,7 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	speedY = 0;
 	jumpSpeed = -5;
 	moveSpeed = 4;
+	playerZone = 1;
 }
 
 ModulePlayer::~ModulePlayer()
