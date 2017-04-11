@@ -8,7 +8,7 @@
 class Hitbox
 {
 public:
-	Hitbox(iPoint coord, float w, float h);
+	Hitbox(SDL_Rect Rect);
 	~Hitbox();
 
 	SDL_Rect hitBox;

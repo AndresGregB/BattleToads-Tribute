@@ -2,11 +2,9 @@
 
 
 
-Hitbox::Hitbox(iPoint coord, float w, float h)
+Hitbox::Hitbox(SDL_Rect Rect)
 {
-	minCoord = coord;
-	width = w;
-	height = h;
+	hitBox = Rect;
 }
 
 
