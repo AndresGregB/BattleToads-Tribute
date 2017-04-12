@@ -80,169 +80,180 @@ bool ModulePlayer::CleanUp()
 // Update
 update_status ModulePlayer::Update()
 {
-	floorY = 120 + coordZ * 10;
-	//Calculate colission with level layout
-	if (!App->collisions->checkIfOnFloor()) 
-	{ 
-		onFloor = false;
-		if (!jumping) {
-			position.y += 2.5;
-			coordZ += 0.2;
-		}
-	}
-	else 
-	{
-		if (position.y <= (int)floorY) {
-			onFloor = true;
-		}
-	}
-
-	
-	if (position.y >= (int)floorY) 
-	{
-		jumping = false;
-		speedY = 0;
-	} 
-	if (jumping)
-	{
-		speedY += GRAVITY;
-	} 
-	// Assing Animation default status
-	if (AnimStatus == WALKING_LEFT || AnimStatus == JUMPING_LEFT)
-	{
-		if (jumping) 
+	if (AnimStatus != DEAD) {
+		floorY = 120 + coordZ * 10;
+		//Calculate colission with level layout
+		if (!App->collisions->checkIfOnFloor())
 		{
-			AnimStatus = JUMPING_LEFT;
-		}
-		else 
-		{
-			AnimStatus = IDLE_LEFT;
-		}
-		
-	}
-	else if (AnimStatus == WALKING_RIGHT || AnimStatus == JUMPING_RIGHT)
-	{
-		if (jumping)
-		{
-			AnimStatus = JUMPING_RIGHT;
+			onFloor = false;
+			if (!jumping) {
+				position.y += 2.5;
+				coordZ += 0.2;
+			}
 		}
 		else
 		{
-			AnimStatus = IDLE_RIGHT;
+			if (position.y <= (int)floorY) {
+				onFloor = true;
+			}
 		}
-	}
-	if (App->input->GetKey(SDL_SCANCODE_SPACE)== KEY_DOWN && !jumping) {
-		jumping = true;
-		speedY = jumpSpeed;
-	}
 
-	// Calculating new position for the player in next frame.
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumping) {
-		// This if is empty so the AnimStatus does not change when pressing A and D at the same time
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		position.x += moveSpeed;
-		if (jumping) 
+
+		if (position.y >= (int)floorY)
 		{
-			AnimStatus = JUMPING_RIGHT;
+			jumping = false;
+			speedY = 0;
 		}
-		else {
-			AnimStatus = WALKING_RIGHT;
-		}
-		
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		position.x -= moveSpeed;
 		if (jumping)
 		{
-			AnimStatus = JUMPING_LEFT;
+			speedY += GRAVITY;
 		}
-		else {
-			AnimStatus = WALKING_LEFT;
-		}
-	}
+		// Assing Animation default status
+		if (AnimStatus == WALKING_LEFT || AnimStatus == JUMPING_LEFT)
+		{
+			if (jumping)
+			{
+				AnimStatus = JUMPING_LEFT;
+			}
+			else
+			{
+				AnimStatus = IDLE_LEFT;
+			}
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT  && coordZ > -3.5/*Limit to vertical movement*/) {
-		position.y -= 0.2;
-		coordZ -= 0.1;
-		if (AnimStatus == IDLE_LEFT)
-		{
-			AnimStatus = WALKING_LEFT;
 		}
-		else if (AnimStatus == IDLE_RIGHT)
+		else if (AnimStatus == WALKING_RIGHT || AnimStatus == JUMPING_RIGHT)
 		{
-			AnimStatus = WALKING_RIGHT;
+			if (jumping)
+			{
+				AnimStatus = JUMPING_RIGHT;
+			}
+			else
+			{
+				AnimStatus = IDLE_RIGHT;
+			}
 		}
-	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT  && coordZ < 0/*Limit to vertical movement*/) {
-		position.y += 1.8;
-		coordZ += 0.1;
-		if (AnimStatus == IDLE_LEFT)
-		{
-			AnimStatus = WALKING_LEFT;
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumping) {
+			jumping = true;
+			speedY = jumpSpeed;
 		}
-		else if (AnimStatus == IDLE_RIGHT)
-		{
-			AnimStatus = WALKING_RIGHT;
+
+		// Calculating new position for the player in next frame.
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumping) {
+			// This if is empty so the AnimStatus does not change when pressing A and D at the same time
 		}
-	}
-	
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumping) {
-		if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
-		{
-			AnimStatus = IDLE_LEFT;
+		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			position.x += moveSpeed;
+			if (jumping)
+			{
+				AnimStatus = JUMPING_RIGHT;
+			}
+			else {
+				AnimStatus = WALKING_RIGHT;
+			}
+
 		}
-		if (AnimStatus == IDLE_RIGHT || AnimStatus == WALKING_RIGHT)
-		{
-			AnimStatus = IDLE_RIGHT;
-		} // Idle when pressing A and D at the same time
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !jumping) {
-		if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
-		{
-			AnimStatus = IDLE_LEFT;
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			position.x -= moveSpeed;
+			if (jumping)
+			{
+				AnimStatus = JUMPING_LEFT;
+			}
+			else {
+				AnimStatus = WALKING_LEFT;
+			}
 		}
-		else if (AnimStatus == IDLE_RIGHT || AnimStatus == WALKING_RIGHT)
-		{
-			AnimStatus = IDLE_RIGHT;
-		} // Idle when pressing S and W at the same time
-	}
-	
-	// Apply animation depending on AnimStatus
-	if (AnimStatus == JUMPING_RIGHT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(jump.GetCurrentFrame()), 1.0f); // Jump Right
-	}
-	else if (AnimStatus == JUMPING_LEFT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(jump.GetCurrentFrame()), 1.0f, true); // Jump Left
-	}
-	else if (AnimStatus == WALKING_RIGHT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f); // Walk Right
-	}
-	else if (AnimStatus == WALKING_LEFT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f,true);//Walk Left
-	}
-	else if (AnimStatus == IDLE_RIGHT){
-		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f); // Idle
-	}
-	else if (AnimStatus == IDLE_LEFT) {
-		App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f,true); // Idle
-	}
-	position.y += (int)speedY;
+
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT  && coordZ > -3.5/*Limit to vertical movement*/) {
+			position.y -= 0.2;
+			coordZ -= 0.1;
+			if (AnimStatus == IDLE_LEFT)
+			{
+				AnimStatus = WALKING_LEFT;
+			}
+			else if (AnimStatus == IDLE_RIGHT)
+			{
+				AnimStatus = WALKING_RIGHT;
+			}
+		}
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT  && coordZ < 0/*Limit to vertical movement*/) {
+			position.y += 1.8;
+			coordZ += 0.1;
+			if (AnimStatus == IDLE_LEFT)
+			{
+				AnimStatus = WALKING_LEFT;
+			}
+			else if (AnimStatus == IDLE_RIGHT)
+			{
+				AnimStatus = WALKING_RIGHT;
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumping) {
+			if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
+			{
+				AnimStatus = IDLE_LEFT;
+			}
+			if (AnimStatus == IDLE_RIGHT || AnimStatus == WALKING_RIGHT)
+			{
+				AnimStatus = IDLE_RIGHT;
+			} // Idle when pressing A and D at the same time
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !jumping) {
+			if (AnimStatus == IDLE_LEFT || AnimStatus == WALKING_LEFT)
+			{
+				AnimStatus = IDLE_LEFT;
+			}
+			else if (AnimStatus == IDLE_RIGHT || AnimStatus == WALKING_RIGHT)
+			{
+				AnimStatus = IDLE_RIGHT;
+			} // Idle when pressing S and W at the same time
+		}
+
+		// Apply animation depending on AnimStatus
+		if (AnimStatus == JUMPING_RIGHT) {
+			App->renderer->Blit(graphics, position.x, position.y, &(jump.GetCurrentFrame()), 1.0f); // Jump Right
+		}
+		else if (AnimStatus == JUMPING_LEFT) {
+			App->renderer->Blit(graphics, position.x, position.y, &(jump.GetCurrentFrame()), 1.0f, true); // Jump Left
+		}
+		else if (AnimStatus == WALKING_RIGHT) {
+			App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f); // Walk Right
+		}
+		else if (AnimStatus == WALKING_LEFT) {
+			App->renderer->Blit(graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f, true);//Walk Left
+		}
+		else if (AnimStatus == IDLE_RIGHT) {
+			App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f); // Idle
+		}
+		else if (AnimStatus == IDLE_LEFT) {
+			App->renderer->Blit(graphics, position.x, position.y, &(idle.GetCurrentFrame()), 1.0f, true); // Idle
+		}
+		position.y += (int)speedY;
 
 
-	// Update player's hitbox
-	playerHitbox->hitBox.x = position.x;
-	playerHitbox->hitBox.y = position.y;
-	playerHitbox->draw(App->renderer->renderer);
+		// Update player's hitbox
+		playerHitbox->hitBox.x = position.x;
+		playerHitbox->hitBox.y = position.y;
+		playerHitbox->draw(App->renderer->renderer);
 
-	if (position.y > floorY) 
+		if (position.y > floorY)
+		{
+			// Player died for falling over
+			AnimStatus = DEAD;
+		}
+	}
+	else
 	{
-		// Player died for falling over
-		position.x = 1800;
-		position.y = 110;
-		jumping = false;
-		onFloor = true;
-		coordZ = -1.0;
+		if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT ) 
+		{
+			position.x = 1800;
+			position.y = 110;
+			jumping = false;
+			onFloor = true;
+			coordZ = -1.0;
+			AnimStatus = IDLE_RIGHT;
+		}
+		
 	}
 	return UPDATE_CONTINUE;
 }

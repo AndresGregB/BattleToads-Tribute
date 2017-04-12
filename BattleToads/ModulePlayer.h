@@ -17,7 +17,8 @@ enum anim_status
 	JUMPING,
 	ATTACKING,
 	JUMPING_RIGHT,
-	JUMPING_LEFT
+	JUMPING_LEFT,
+	DEAD
 };
 class ModulePlayer : public Module
 {
