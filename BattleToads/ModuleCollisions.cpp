@@ -88,3 +88,13 @@ void ModuleCollisions::addHitbox(Hitbox* hitBox)
 {
 	levelLayout.push_back(hitBox);
 }
+bool ModuleCollisions::checkIfOnFloor() 
+{
+	std::list<Hitbox*>::const_iterator it;
+
+	for (it = levelLayout.begin(); it != levelLayout.end(); ++it)
+	{
+		if ((*it)->checkIntersection(App->player->playerHitbox->hitBox)) return true;
+	}
+	return false;
+}

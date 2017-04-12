@@ -47,7 +47,7 @@ public:
 	Hitbox* playerHitbox;
 
 	anim_status AnimStatus;
-	bool jumping;
+	bool jumping, onFloor;
 	float floorY;
 };
 

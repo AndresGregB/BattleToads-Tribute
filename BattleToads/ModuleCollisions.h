@@ -20,6 +20,7 @@ public:
 	bool ModuleCollisions::CleanUp();
 	update_status ModuleCollisions::Update();
 	void ModuleCollisions::addHitbox(Hitbox* hitBox);
+	bool ModuleCollisions::checkIfOnFloor();
 
 };
 #endif

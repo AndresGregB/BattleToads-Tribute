@@ -43,11 +43,12 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	jump.frames.push_back({ 415, 167, 46, 25 });
 	AnimStatus = IDLE_RIGHT;
 	jumping = false;
+	onFloor = true;
 	coordZ = -1.0;
 	floorY = 120 + coordZ * 10; // Mapping the floor height with the coordZ
 	speedY = 0;
 	jumpSpeed = -5;
-	moveSpeed = 4;
+	moveSpeed = 2;
 	playerZone = 1;
 }
 
@@ -79,14 +80,30 @@ bool ModulePlayer::CleanUp()
 // Update
 update_status ModulePlayer::Update()
 {
-	// TODO: Add colission with level layout and "grounded" boolean for the player
 	floorY = 120 + coordZ * 10;
+	//Calculate colission with level layout
+	if (!App->collisions->checkIfOnFloor()) 
+	{ 
+		onFloor = false;
+		if (!jumping) {
+			position.y += 2.5;
+			coordZ += 0.2;
+		}
+	}
+	else 
+	{
+		if (position.y <= (int)floorY) {
+			onFloor = true;
+		}
+	}
+
+	
 	if (position.y >= (int)floorY) 
 	{
 		jumping = false;
 		speedY = 0;
 	} 
-	if (jumping) 
+	if (jumping)
 	{
 		speedY += GRAVITY;
 	} 
@@ -218,14 +235,14 @@ update_status ModulePlayer::Update()
 	playerHitbox->hitBox.y = position.y;
 	playerHitbox->draw(App->renderer->renderer);
 
-	/*SDL_Rect auxRect;
-	auxRect.x = 1315;
-	auxRect.y = 110;
-	auxRect.w = 183;
-	auxRect.h = 50;
-	Hitbox auxHitBox(auxRect,1.0f);*/
-	//auxHitBox.draw(App->renderer->renderer);
-	/*LOG("Y calc: %f \n", 120 + coordZ*10);
-	LOG("Y: %f \n", coordZ);*/
+	if (position.y > floorY) 
+	{
+		// Player died for falling over
+		position.x = 1800;
+		position.y = 110;
+		jumping = false;
+		onFloor = true;
+		coordZ = -1.0;
+	}
 	return UPDATE_CONTINUE;
 }
