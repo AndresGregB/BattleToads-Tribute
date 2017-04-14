@@ -18,7 +18,11 @@ enum anim_status
 	ATTACKING,
 	JUMPING_RIGHT,
 	JUMPING_LEFT,
-	DEAD
+	DEAD,
+	ATTACK1_RIGHT,
+	ATTACK1_LEFT,
+	ATTACK2_RIGHT,
+	ATTACK2_LEFT
 };
 class ModulePlayer : public Module
 {
@@ -34,8 +38,9 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 	Animation idle;
-	Animation backward;
 	Animation walk;
+	Animation attack1;
+	Animation attack2;
 	Animation jump;
 
 	iPoint position;
@@ -50,6 +55,11 @@ public:
 	anim_status AnimStatus;
 	bool jumping, onFloor;
 	float floorY;
+
+private:
+	void ModulePlayer::playCurrentAnimation();
+	void ModulePlayer::checkInputs();
+	SDL_Rect previousAttackFrame;
 };
 
 #endif // __MODULEPLAYER_H__
