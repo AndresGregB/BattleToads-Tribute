@@ -9,7 +9,7 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
 	inputblock = false;
 
-	position.x = 1800;
+	position.x = 200;
 	position.y = 110;
 	SDL_Rect PHitbox;
 
@@ -111,7 +111,7 @@ update_status ModulePlayer::Update()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT ) 
 		{
-			position.x = 1800;
+			position.x = 200;
 			position.y = 110;
 			jumping = false;
 			onFloor = true;
@@ -226,7 +226,7 @@ void ModulePlayer::playCurrentAnimation()
 		{
 			App->renderer->Blit(graphics, position.x - correctionX, position.y, &(attack2.GetCurrentFrame()), 1.0f, true); // Punches
 		}
-		position.x -= 0.8;
+		position.x -= 1.9;
 		if (SDL_GetTicks()-timeAttack1 >= 500) 
 		{
 			inputblock = false;
