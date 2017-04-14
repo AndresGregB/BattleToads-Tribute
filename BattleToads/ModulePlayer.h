@@ -44,10 +44,7 @@ public:
 	Animation jump;
 
 	iPoint position;
-	float speedY;
-	float coordZ;
-	int jumpSpeed;
-	int moveSpeed;
+	
 
 	int playerZone;
 	Hitbox* playerHitbox;
@@ -60,6 +57,13 @@ private:
 	void ModulePlayer::playCurrentAnimation();
 	void ModulePlayer::checkInputs();
 	SDL_Rect previousAttackFrame;
+
+	float speedY;
+	float coordZ;
+	float timeAttack1;
+	int jumpSpeed;
+	int moveSpeed;
+	bool inputblock;
 };
 
 #endif // __MODULEPLAYER_H__
