@@ -48,7 +48,7 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	floorY = 120 + coordZ * 10; // Mapping the floor height with the coordZ
 	speedY = 0;
 	jumpSpeed = -5;
-	moveSpeed = 2;
+	moveSpeed = 2.1;
 	playerZone = 1;
 }
 
@@ -166,6 +166,7 @@ update_status ModulePlayer::Update()
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT  && coordZ > -3.5/*Limit to vertical movement*/) {
 			position.y -= 0.2;
 			coordZ -= 0.1;
+			floorY = 120 + coordZ * 10;
 			if (AnimStatus == IDLE_LEFT)
 			{
 				AnimStatus = WALKING_LEFT;
@@ -178,6 +179,7 @@ update_status ModulePlayer::Update()
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT  && coordZ < 0/*Limit to vertical movement*/) {
 			position.y += 1.8;
 			coordZ += 0.1;
+			floorY = 120 + coordZ * 10;
 			if (AnimStatus == IDLE_LEFT)
 			{
 				AnimStatus = WALKING_LEFT;
@@ -236,6 +238,7 @@ update_status ModulePlayer::Update()
 		playerHitbox->hitBox.y = position.y;
 		playerHitbox->draw(App->renderer->renderer);
 
+		
 		if (position.y > floorY)
 		{
 			// Player died for falling over

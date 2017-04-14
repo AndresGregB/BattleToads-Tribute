@@ -30,9 +30,9 @@ public:
 public:
 
 	SDL_Texture* graphics = nullptr;
-	SDL_Rect ground;
+	SDL_Texture* objects = nullptr;
 	SDL_Rect background;
-	SDL_Rect ship;
+	SDL_Rect platformVisual;
 	Animation flag;
 	Animation girl;
 	int boatH;
