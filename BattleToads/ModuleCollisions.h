@@ -6,6 +6,9 @@
 #include "Module.h"
 #include "Hitbox.h"
 #include <list>
+#include "ModuleControlEnemies.h"
+class Enemy;
+
 
 class ModuleCollisions: public Module
 {
@@ -15,12 +18,15 @@ public:
 
 	// Zones
 	std::list<Hitbox*> levelLayout;
+	std::list<Enemy*> enemies;
 
 	void ModuleCollisions::drawHitboxes();
 	bool ModuleCollisions::CleanUp();
 	update_status ModuleCollisions::Update();
+	bool ModuleCollisions::Start();
 	void ModuleCollisions::addHitbox(Hitbox* hitBox);
 	bool ModuleCollisions::checkIfOnFloor();
+	ModuleControlEnemies* enemiesControler;
 
 };
 #endif

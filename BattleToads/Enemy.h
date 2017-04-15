@@ -3,6 +3,8 @@
 
 
 #include "Globals.h"
+#include "Application.h"
+#include "ModuleControlEnemies.h"
 #include "Point.h"
 #include "Hitbox.h"
 
@@ -13,7 +15,10 @@ public:
 	~Enemy();
 
 	iPoint position;
+	float CoordZ;
 	Hitbox* hitBox;
+	void Enemy::Update();
+	int Enemy::calculateDistancetoPlayer();
 
 private:
 	float coordZ;

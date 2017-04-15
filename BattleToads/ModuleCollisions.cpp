@@ -6,6 +6,7 @@
 ModuleCollisions::ModuleCollisions()
 {
 	// Level Layout
+	enemiesControler = new ModuleControlEnemies;
 	SDL_Rect auxRect;
 	auxRect.x = 0;
 	auxRect.y = 110;
@@ -49,6 +50,8 @@ ModuleCollisions::ModuleCollisions()
 	auxHitBox = new Hitbox(auxRect, 1.0f);
 	levelLayout.push_back(auxHitBox);
 
+	
+
 }
 
 
@@ -60,6 +63,15 @@ bool ModuleCollisions::CleanUp()
 	LOG("Unloading hitboxes");
 
 	levelLayout.clear();
+	enemies.clear();
+	
+	return true;
+}
+bool ModuleCollisions::Start()
+{
+	LOG("Loading enemies");
+
+	enemiesControler->Start();
 
 	return true;
 }

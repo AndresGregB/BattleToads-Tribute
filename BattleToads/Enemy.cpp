@@ -15,3 +15,11 @@ Enemy::Enemy(iPoint pos)
 Enemy::~Enemy()
 {
 }
+void Enemy::Update() 
+{
+
+}
+int Enemy::calculateDistancetoPlayer() 
+{
+	return 1;
+}

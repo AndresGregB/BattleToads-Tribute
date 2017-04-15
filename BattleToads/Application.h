@@ -7,9 +7,9 @@
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
 #include "ModuleCollisions.h"
+#include "ModuleTextures.h"
 
 class ModuleWindow;
-class ModuleTextures;
 class ModuleInput;
 class ModuleAudio;
 class ModuleFadeToBlack;
