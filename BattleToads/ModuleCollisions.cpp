@@ -1,5 +1,6 @@
 #include "ModuleCollisions.h"
 #include "Application.h"
+#include "Enemy.h"
 
 
 
@@ -85,6 +86,13 @@ update_status ModuleCollisions::Update()
 		(*it)->checkIntersection(App->player->playerHitbox->hitBox);
 	}
 
+	std::list<Enemy*>::const_iterator it2;
+
+	/*for (it2 = enemies.begin(); it2 != enemies.end(); ++it)
+	{
+		(*it2)->Draw();
+	}*/
+	enemiesControler->Update();
 	return UPDATE_CONTINUE;
 }
 void ModuleCollisions::drawHitboxes()
@@ -109,4 +117,8 @@ bool ModuleCollisions::checkIfOnFloor()
 		if ((*it)->checkIntersection(App->player->playerHitbox->hitBox)) return true;
 	}
 	return false;
+}
+void ModuleCollisions::addEnemy(Enemy* enemy) 
+{
+	enemies.push_back(enemy);
 }
