@@ -25,7 +25,7 @@ void Enemy::Update()
 }
 void Enemy::Draw()
 {
-	App->renderer->Blit(App->collisions->enemiesControler->graphics,position.x,position.y,&(walk.GetCurrentFrame()),1.0f);
+	App->renderer->Blit2(App->collisions->enemiesControler->graphics,position.x,position.y,&(walk.GetCurrentFrame()),1.0f,2);
 }
 int Enemy::calculateDistancetoPlayer() 
 {

@@ -76,23 +76,44 @@ bool ModuleCollisions::Start()
 
 	return true;
 }
+void ModuleCollisions::drawEnemiesBehind()
+{
+	std::list<Enemy*>::const_iterator it2;
+
+	for (it2 = enemies.begin(); it2 != enemies.end(); ++it2)
+	{
+		if ((*it2)->CoordZ < App->player->coordZ)
+		{
+			LOG("CoordZ Enemy: %f \n", (*it2)->CoordZ);
+			LOG("CoordZ Player: %f \n", App->player->coordZ);
+			(*it2)->Draw();
+		}
+
+	}
+}
 update_status ModuleCollisions::Update()
 {
 	drawHitboxes();
 	std::list<Hitbox*>::const_iterator it;
-
-	for (it = levelLayout.begin(); it != levelLayout.end(); ++it)
+	//draw hitboxes
+	/*for (it = levelLayout.begin(); it != levelLayout.end(); ++it)
 	{
 		(*it)->checkIntersection(App->player->playerHitbox->hitBox);
-	}
+	}*/
 
+	//Draw enemies
 	std::list<Enemy*>::const_iterator it2;
 
-	/*for (it2 = enemies.begin(); it2 != enemies.end(); ++it)
+	for (it2 = enemies.begin(); it2 != enemies.end(); ++it2)
 	{
-		(*it2)->Draw();
-	}*/
-	enemiesControler->Update();
+		if ((*it2)->CoordZ >= App->player->coordZ)
+		{
+			LOG("CoordZ Enemy: %f \n", (*it2)->CoordZ);
+			LOG("CoordZ Player: %f \n", App->player->coordZ);
+			(*it2)->Draw();
+		}
+
+	}
 	return UPDATE_CONTINUE;
 }
 void ModuleCollisions::drawHitboxes()

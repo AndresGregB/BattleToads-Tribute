@@ -21,6 +21,8 @@ public:
 	bool CleanUp();
 
 	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, bool flipH = false);
+	bool Blit2(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed,int scale, bool flipH = false);
+
 
 public:
 	SDL_Renderer* renderer = nullptr;

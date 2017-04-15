@@ -124,7 +124,7 @@ update_status ModulePlayer::Update()
 }
 void ModulePlayer::playCurrentAnimation() 
 {
-
+	App->collisions->drawEnemiesBehind();
 	// Apply animation depending on AnimStatus
 	if (AnimStatus == JUMPING_RIGHT) {
 		App->renderer->Blit(graphics, position.x, position.y, &(jump.GetCurrentFrame()), 1.0f); // Jump Right

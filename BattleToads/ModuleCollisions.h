@@ -24,6 +24,7 @@ public:
 	bool ModuleCollisions::CleanUp();
 	update_status ModuleCollisions::Update();
 	bool ModuleCollisions::Start();
+	void drawEnemiesBehind();
 	void ModuleCollisions::addHitbox(Hitbox* hitBox);
 	void ModuleCollisions::addEnemy(Enemy* enemy);
 	bool ModuleCollisions::checkIfOnFloor();

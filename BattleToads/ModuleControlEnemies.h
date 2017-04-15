@@ -13,6 +13,7 @@ public:
 	SDL_Texture* graphics;
 	void ModuleControlEnemies::Update();
 	void ModuleControlEnemies::Start();
+	void ModuleControlEnemies::PostUpdate();
 };
 #endif
 

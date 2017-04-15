@@ -15,7 +15,11 @@ ModuleControlEnemies::~ModuleControlEnemies()
 }
 void ModuleControlEnemies::Update() 
 {
-	test1->Draw();
+	
+}
+void ModuleControlEnemies::PostUpdate()
+{
+	
 }
 void ModuleControlEnemies::Start()
 {
@@ -27,6 +31,7 @@ void ModuleControlEnemies::Start()
 	testPos.x = 250;
 	testPos.y = 105;
 	Enemy* test = new Enemy(testPos);
+	test->CoordZ = -2;
 	App->collisions->addEnemy(test);
 	//test->Draw();
 	test1 = test;

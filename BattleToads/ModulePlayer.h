@@ -52,6 +52,7 @@ public:
 	anim_status AnimStatus;
 	bool jumping, onFloor;
 	float floorY;
+	float coordZ;
 
 private:
 	void ModulePlayer::playCurrentAnimation();
@@ -59,7 +60,6 @@ private:
 	SDL_Rect previousAttackFrame;
 
 	float speedY;
-	float coordZ;
 	float timeAttack1;
 	int jumpSpeed;
 	int moveSpeed;
