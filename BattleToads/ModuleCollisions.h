@@ -28,6 +28,9 @@ public:
 	void ModuleCollisions::addHitbox(Hitbox* hitBox);
 	void ModuleCollisions::addEnemy(Enemy* enemy);
 	bool ModuleCollisions::checkIfOnFloor();
+	update_status ModuleCollisions::PostUpdate();
+	bool ModuleCollisions::checkAttackHit(Hitbox* attackHitbox, const float attackerCoordZ, const Hitbox* targetHitbox, const float targetCoordZ);
+	void ModuleCollisions::checkAttackVsEnemies(Hitbox* attackHitbox, const float attackerCoordZ);
 	ModuleControlEnemies* enemiesControler;
 
 };

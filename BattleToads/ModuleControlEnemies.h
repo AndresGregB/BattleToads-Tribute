@@ -11,6 +11,7 @@ public:
 	~ModuleControlEnemies();
 	Enemy* test1;
 	SDL_Texture* graphics;
+	float spawnTimer;
 	void ModuleControlEnemies::Update();
 	void ModuleControlEnemies::Start();
 	void ModuleControlEnemies::PostUpdate();

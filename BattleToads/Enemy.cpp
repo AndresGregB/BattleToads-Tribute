@@ -32,7 +32,12 @@ void Enemy::Clear()
 }
 void Enemy::Update() 
 {
-	if (active) {
+	if (status == DIYING && SDL_GetTicks() - deathTimer > 500) 
+	{
+		active = false;
+		LOG("Erasing enemy");
+	}
+	if (active && status != DIYING) {
 		if ( calculateDistancetoPlayer() > 25.0f)
 		{
 			fPoint nextMovement;
@@ -84,4 +89,9 @@ void Enemy::Draw()
 int Enemy::calculateDistancetoPlayer() 
 {
 	return position.DistanceTo(App->player->position);
+}
+void Enemy::prepareToDie() 
+{
+	deathTimer = SDL_GetTicks();
+	status = DIYING;
 }

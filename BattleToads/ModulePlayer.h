@@ -48,6 +48,10 @@ public:
 
 	int playerZone;
 	Hitbox* playerHitbox;
+	Hitbox* rightAttack1H;
+	Hitbox* leftAttack1H;
+	Hitbox* rightAttack2H;
+	Hitbox* leftAttack2H;
 
 	anim_status AnimStatus;
 	bool jumping, onFloor;
@@ -57,6 +61,7 @@ public:
 private:
 	void ModulePlayer::playCurrentAnimation();
 	void ModulePlayer::checkInputs();
+	void ModulePlayer::updatePlayerHitboxes();
 	SDL_Rect previousAttackFrame;
 
 	float speedY;

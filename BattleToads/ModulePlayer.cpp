@@ -20,6 +20,34 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 
 	playerHitbox = new Hitbox(PHitbox, 1.0f);
 
+	PHitbox.x = position.x + playerHitbox->hitBox.w;
+	PHitbox.y = position.y - 5;
+	PHitbox.w = 26;
+	PHitbox.h = 20;
+
+	rightAttack1H = new Hitbox(PHitbox, 1.0f);
+
+	PHitbox.x = position.x - playerHitbox->hitBox.w;
+	PHitbox.y = position.y - 5;
+	PHitbox.w = 26;
+	PHitbox.h = 20;
+
+	leftAttack1H = new Hitbox(PHitbox, 1.0f);
+
+	PHitbox.x = position.x + playerHitbox->hitBox.w/2;
+	PHitbox.y = position.y;
+	PHitbox.w = 26;
+	PHitbox.h = 25;
+
+	rightAttack2H = new Hitbox(PHitbox, 1.0f);
+
+	PHitbox.x = position.x - playerHitbox->hitBox.w/2;
+	PHitbox.y = position.y;
+	PHitbox.w = 26;
+	PHitbox.h = 25;
+
+	leftAttack2H = new Hitbox(PHitbox, 1.0f);
+
 	idle.frames.push_back({36, 23, 26, 34});
 	idle.frames.push_back({69, 23, 26, 34 });
 	idle.frames.push_back({ 36, 23, 26, 34 });
@@ -79,6 +107,11 @@ bool ModulePlayer::CleanUp()
 	LOG("Unloading player");
 
 	App->textures->Unload(graphics);
+	//delete playerHitbox;
+	/*delete leftAttack1H;
+	delete leftAttack2H;
+	delete rightAttack1H;
+	delete rightAttack2H;*/
 
 	return true;
 }
@@ -95,10 +128,9 @@ update_status ModulePlayer::Update()
 		playCurrentAnimation();
 
 		position.y += (int)speedY;
-		// Update player's hitbox
-		playerHitbox->hitBox.x = position.x;
-		playerHitbox->hitBox.y = position.y;
-		playerHitbox->draw(App->renderer->renderer);
+		// Update player's hitboxes
+		ModulePlayer::updatePlayerHitboxes();
+		
 
 		
 		if (position.y > floorY)
@@ -160,6 +192,7 @@ void ModulePlayer::playCurrentAnimation()
 		{
 			App->renderer->Blit(graphics, position.x, position.y, &(attack1.GetCurrentFrame()), 1.0f); // Punches
 		}
+		App->collisions->checkAttackVsEnemies(rightAttack1H, coordZ);
 			
 	}
 	else if (AnimStatus == ATTACK1_LEFT)
@@ -182,6 +215,7 @@ void ModulePlayer::playCurrentAnimation()
 		{
 			App->renderer->Blit(graphics, position.x - correctionX, position.y, &(attack1.GetCurrentFrame()), 1.0f, true); // Punches
 		}
+		App->collisions->checkAttackVsEnemies(leftAttack1H, coordZ);
 	}
 	else if (AnimStatus == ATTACK2_RIGHT) {
 		SDL_Rect auxRect;
@@ -204,6 +238,7 @@ void ModulePlayer::playCurrentAnimation()
 		{
 			inputblock = false;
 		}
+		App->collisions->checkAttackVsEnemies(rightAttack2H, coordZ);
 
 	}
 	else if (AnimStatus == ATTACK2_LEFT)
@@ -231,6 +266,7 @@ void ModulePlayer::playCurrentAnimation()
 		{
 			inputblock = false;
 		}
+		App->collisions->checkAttackVsEnemies(leftAttack2H, coordZ);
 	}
 }
 void ModulePlayer::checkInputs() 
@@ -388,4 +424,28 @@ void ModulePlayer::checkInputs()
 			inputblock = true;
 		}
 	}
+}
+void ModulePlayer::updatePlayerHitboxes() 
+{
+	playerHitbox->hitBox.x = position.x;
+	playerHitbox->hitBox.y = position.y;
+	playerHitbox->draw(App->renderer->renderer);
+
+	rightAttack1H->hitBox.x = position.x + playerHitbox->hitBox.w;
+	rightAttack1H->hitBox.y = position.y - 5;
+	rightAttack1H->draw(App->renderer->renderer);
+
+	leftAttack1H->hitBox.x = position.x - playerHitbox->hitBox.w;
+	leftAttack1H->hitBox.y = position.y - 5;
+	leftAttack1H->draw(App->renderer->renderer);
+
+	leftAttack2H->hitBox.x = position.x - playerHitbox->hitBox.w / 2;
+	leftAttack2H->hitBox.y = position.y;
+	leftAttack2H->draw(App->renderer->renderer);
+
+	rightAttack2H->hitBox.x = position.x + playerHitbox->hitBox.w / 2;
+	rightAttack2H->hitBox.y = position.y;
+	rightAttack2H->draw(App->renderer->renderer);
+
+
 }
