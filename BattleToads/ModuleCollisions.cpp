@@ -86,7 +86,7 @@ void ModuleCollisions::drawEnemiesBehind()
 		{
 			LOG("CoordZ Enemy: %f \n", (*it2)->CoordZ);
 			LOG("CoordZ Player: %f \n", App->player->coordZ);
-			(*it2)->Draw();
+			(*it2)->Update();
 		}
 
 	}
@@ -101,7 +101,7 @@ update_status ModuleCollisions::Update()
 		(*it)->checkIntersection(App->player->playerHitbox->hitBox);
 	}*/
 
-	//Draw enemies
+	//Update enemies
 	std::list<Enemy*>::const_iterator it2;
 
 	for (it2 = enemies.begin(); it2 != enemies.end(); ++it2)
@@ -110,7 +110,7 @@ update_status ModuleCollisions::Update()
 		{
 			LOG("CoordZ Enemy: %f \n", (*it2)->CoordZ);
 			LOG("CoordZ Player: %f \n", App->player->coordZ);
-			(*it2)->Draw();
+			(*it2)->Update();
 		}
 
 	}

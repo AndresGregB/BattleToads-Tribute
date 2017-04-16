@@ -8,7 +8,11 @@
 #include "Point.h"
 #include "Hitbox.h"
 #include "Animation.h"
-
+enum enemyAnim
+{
+	WALK_RIGHT,
+	WALK_LEFT
+};
 class Enemy
 {
 public:
@@ -17,16 +21,18 @@ public:
 	Animation walk;
 	Animation attack;
 	iPoint position;
+	fPoint movement;
 	float CoordZ;
 	Hitbox* hitBox;
+	bool active;
 	void Enemy::Update();
 	void Enemy::Draw();
 	int Enemy::calculateDistancetoPlayer();
 
 private:
 	float coordZ;
-	int jumpSpeed;
 	int moveSpeed;
+	enemyAnim status;
 
 
 };
