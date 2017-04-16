@@ -21,6 +21,7 @@ public:
 	~Enemy();
 	Animation walk;
 	Animation attack;
+	Animation death;
 	iPoint position;
 	fPoint movement;
 	float CoordZ;

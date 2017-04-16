@@ -20,6 +20,15 @@ Enemy::Enemy(iPoint pos)
 	walk.frames.push_back({ 167,268,48,50 });
 	walk.frames.push_back({ 224,269,39,46 });
 	walk.speed = 0.1f;
+
+	attack.frames.push_back({297,76,37,38});
+	attack.frames.push_back({ 346,72,38,43 });
+	attack.frames.push_back({ 390,79,44,37 });
+	attack.speed = 0.05f;
+
+	death.frames.push_back({442,72,40,43});
+	death.frames.push_back({ 489,72,40,43 });
+	death.speed = 0.05f;
 }
 
 
@@ -32,7 +41,7 @@ void Enemy::Clear()
 }
 void Enemy::Update() 
 {
-	if (status == DIYING && SDL_GetTicks() - deathTimer > 500) 
+	if (status == DIYING && SDL_GetTicks() - deathTimer > 1000) 
 	{
 		active = false;
 		LOG("Erasing enemy");
@@ -74,8 +83,8 @@ void Enemy::Update()
 				status = WALK_LEFT;
 			}
 		}
-		Draw();
 	}
+	Draw();
 }
 void Enemy::Draw()
 {
@@ -83,6 +92,9 @@ void Enemy::Draw()
 		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f, 2);
 	}else if (status == WALK_LEFT) {
 		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f, 2, true);
+	}
+	else if (status == DIYING) {
+		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(death.GetCurrentFrame()), 1.0f, 2, true);
 	}
 	
 }
