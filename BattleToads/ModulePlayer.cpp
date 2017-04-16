@@ -8,6 +8,16 @@
 ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
 	inputblock = false;
+	lives = 5;
+	liveEmpty.x = 0;
+	liveEmpty.y = 0;
+	liveEmpty.w = 8;
+	liveEmpty.h = 11;
+
+	liveFull.x = 11;
+	liveFull.y = 0;
+	liveFull.w = 8;
+	liveFull.h = 11;
 
 	position.x = 200;
 	position.y = 110;
@@ -84,6 +94,7 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	moveSpeed = 2.1;
 	playerZone = 1;
 	previousAttackFrame.w = 0;
+
 }
 
 ModulePlayer::~ModulePlayer()
@@ -97,6 +108,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	graphics = App->textures->Load("./Sprites/rash.png");
+	life = App->textures->Load("./Sprites/lifeSprite.png");
 
 	return true;
 }
@@ -133,9 +145,9 @@ update_status ModulePlayer::Update()
 		
 
 		
-		if (position.y > floorY)
+		if (position.y > floorY || lives <= 0)
 		{
-			// Player died for falling over
+			// Player died
 			AnimStatus = DEAD;
 		}
 	}
@@ -148,10 +160,12 @@ update_status ModulePlayer::Update()
 			jumping = false;
 			onFloor = true;
 			coordZ = -1.0;
+			lives = 5;
 			AnimStatus = IDLE_RIGHT;
 		}
 		
 	}
+	drawLives();
 	return UPDATE_CONTINUE;
 }
 void ModulePlayer::playCurrentAnimation() 
@@ -429,23 +443,43 @@ void ModulePlayer::updatePlayerHitboxes()
 {
 	playerHitbox->hitBox.x = position.x;
 	playerHitbox->hitBox.y = position.y;
-	playerHitbox->draw(App->renderer->renderer);
+	//playerHitbox->draw(App->renderer->renderer);
 
 	rightAttack1H->hitBox.x = position.x + playerHitbox->hitBox.w;
 	rightAttack1H->hitBox.y = position.y - 5;
-	rightAttack1H->draw(App->renderer->renderer);
+	//rightAttack1H->draw(App->renderer->renderer);
 
 	leftAttack1H->hitBox.x = position.x - playerHitbox->hitBox.w;
 	leftAttack1H->hitBox.y = position.y - 5;
-	leftAttack1H->draw(App->renderer->renderer);
+	//leftAttack1H->draw(App->renderer->renderer);
 
 	leftAttack2H->hitBox.x = position.x - playerHitbox->hitBox.w / 2;
 	leftAttack2H->hitBox.y = position.y;
-	leftAttack2H->draw(App->renderer->renderer);
+	//leftAttack2H->draw(App->renderer->renderer);
 
 	rightAttack2H->hitBox.x = position.x + playerHitbox->hitBox.w / 2;
 	rightAttack2H->hitBox.y = position.y;
-	rightAttack2H->draw(App->renderer->renderer);
+	//rightAttack2H->draw(App->renderer->renderer);
 
 
+}
+void ModulePlayer::drawLives() 
+{
+	for (int i = 0; i < 5;i++) 
+	{
+		App->renderer->Blit(life,(position.x-120)+i*10 , 5, &liveEmpty, 1.0f);
+	}
+	for (int i = 0; i < lives; i++)
+	{
+		App->renderer->Blit(life, (position.x - 120) + i * 10, 5, &liveFull, 1.0f);
+	}
+}
+void ModulePlayer::takeHit()
+{
+	if (SDL_GetTicks()-inmunityTime > 1000) 
+	{
+		lives--;
+		inmunityTime = SDL_GetTicks();
+	}
+	
 }

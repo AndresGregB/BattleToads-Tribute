@@ -37,6 +37,7 @@ public:
 public:
 
 	SDL_Texture* graphics = nullptr;
+	SDL_Texture* life = nullptr;
 	Animation idle;
 	Animation walk;
 	Animation attack1;
@@ -47,6 +48,7 @@ public:
 	
 
 	int playerZone;
+	int lives;
 	Hitbox* playerHitbox;
 	Hitbox* rightAttack1H;
 	Hitbox* leftAttack1H;
@@ -57,15 +59,18 @@ public:
 	bool jumping, onFloor;
 	float floorY;
 	float coordZ;
+	void ModulePlayer::takeHit();
 
 private:
 	void ModulePlayer::playCurrentAnimation();
 	void ModulePlayer::checkInputs();
+	void ModulePlayer::drawLives();
 	void ModulePlayer::updatePlayerHitboxes();
 	SDL_Rect previousAttackFrame;
-
+	SDL_Rect liveEmpty, liveFull;
 	float speedY;
 	float timeAttack1;
+	float inmunityTime;
 	int jumpSpeed;
 	int moveSpeed;
 	bool inputblock;

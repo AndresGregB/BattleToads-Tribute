@@ -12,7 +12,9 @@ enum enemyAnim
 {
 	WALK_RIGHT,
 	WALK_LEFT,
-	DIYING
+	DYING,
+	ATTACKING_L,
+	ATTACKING_R
 };
 class Enemy
 {
@@ -26,8 +28,12 @@ public:
 	fPoint movement;
 	float CoordZ;
 	float deathTimer;
+	float attackTimer;
 	Hitbox* hitBox;
+	Hitbox* attackLH;
+	Hitbox* attackRH;
 	bool active;
+	bool attacking;
 	void Enemy::Update();
 	void Enemy::Clear();
 	void Enemy::Draw();

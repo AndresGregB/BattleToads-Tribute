@@ -85,7 +85,7 @@ void ModuleCollisions::drawEnemiesBehind()
 		if ((*it2)->CoordZ < App->player->coordZ && (*it2)->active)
 		{
 			(*it2)->Update();
-			(*it2)->hitBox->draw(App->renderer->renderer);
+			//(*it2)->hitBox->draw(App->renderer->renderer);
 		}
 
 	}
@@ -109,7 +109,7 @@ update_status ModuleCollisions::PostUpdate()
 }
 update_status ModuleCollisions::Update()
 {
-	drawHitboxes();
+	//drawHitboxes();
 	//Update enemies
 	std::list<Enemy*>::const_iterator it2;
 	
@@ -126,7 +126,7 @@ update_status ModuleCollisions::Update()
 				if ((*it2)->active)
 				{
 					(*it2)->Update();
-					(*it2)->hitBox->draw(App->renderer->renderer);
+					//(*it2)->hitBox->draw(App->renderer->renderer);
 				}
 			}
 		}
