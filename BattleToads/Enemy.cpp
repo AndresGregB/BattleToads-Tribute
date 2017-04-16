@@ -10,8 +10,12 @@ Enemy::Enemy(iPoint pos)
 	rec.y = position.y;
 	movement.SetToZero();
 	moveSpeed = 1.5;
+	CoordZ = -1;
 	active = true;
 	hitBox = new Hitbox(rec,1.0f);
+	hitBox->hitBox.w = 25;
+	hitBox->hitBox.h = 30;
+
 	walk.frames.push_back({120,270,44,45});
 	walk.frames.push_back({ 167,268,48,50 });
 	walk.frames.push_back({ 224,269,39,46 });
@@ -22,6 +26,10 @@ Enemy::Enemy(iPoint pos)
 Enemy::~Enemy()
 {
 }
+void Enemy::Clear()
+{
+	delete hitBox;
+}
 void Enemy::Update() 
 {
 	if (active) {
@@ -29,7 +37,7 @@ void Enemy::Update()
 		{
 			fPoint nextMovement;
 			nextMovement.x = App->player->position.x - position.x;
-			nextMovement.y = App->player->position.y - position.y;
+			nextMovement.y = App->player->coordZ - CoordZ;
 			float module = sqrt((nextMovement.x*nextMovement.x + nextMovement.y*nextMovement.y));
 			
 			nextMovement.x = nextMovement.x / module;
@@ -45,9 +53,13 @@ void Enemy::Update()
 			else {
 				movement.SetToZero();
 			}
-
+			//floorY = 120 + coordZ * 10;
+			CoordZ += movement.y;
 			position.x += round(movement.x);
-			position.y += round(movement.y);
+			position.y = round(125 + CoordZ * 10);
+
+			hitBox->hitBox.x = position.x;
+			hitBox->hitBox.y = position.y;
 
 			if (movement.x >= 0.5) 
 			{

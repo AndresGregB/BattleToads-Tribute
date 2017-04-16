@@ -87,6 +87,7 @@ void ModuleCollisions::drawEnemiesBehind()
 			LOG("CoordZ Enemy: %f \n", (*it2)->CoordZ);
 			LOG("CoordZ Player: %f \n", App->player->coordZ);
 			(*it2)->Update();
+			(*it2)->hitBox->draw(App->renderer->renderer);
 		}
 
 	}

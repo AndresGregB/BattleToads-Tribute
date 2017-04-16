@@ -26,11 +26,11 @@ public:
 	Hitbox* hitBox;
 	bool active;
 	void Enemy::Update();
+	void Enemy::Clear();
 	void Enemy::Draw();
 	int Enemy::calculateDistancetoPlayer();
 
 private:
-	float coordZ;
 	int moveSpeed;
 	enemyAnim status;
 
