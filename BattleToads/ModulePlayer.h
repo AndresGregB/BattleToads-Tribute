@@ -73,6 +73,8 @@ private:
 	int jumpSpeed;
 	int moveSpeed;
 	bool inputblock;
+	unsigned int attack1SoundId;
+	unsigned int attack2SoundId;
 };
 
 #endif // __MODULEPLAYER_H__

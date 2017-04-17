@@ -4,6 +4,7 @@
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
+#include "ModuleAudio.h"
 
 ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 {
@@ -107,7 +108,8 @@ ModulePlayer::~ModulePlayer()
 bool ModulePlayer::Start()
 {
 	LOG("Loading player");
-
+	attack1SoundId = App->audio->LoadFx("./Music/attack1.ogg");
+	attack2SoundId = App->audio->LoadFx("./Music/attack2.ogg");
 	graphics = App->textures->Load("./Sprites/rash.png");
 	life = App->textures->Load("./Sprites/lifeSprite.png");
 
@@ -214,6 +216,7 @@ void ModulePlayer::playCurrentAnimation()
 			App->renderer->Blit(graphics, position.x, position.y, &(attack1.GetCurrentFrame()), 1.0f); // Punches
 		}
 		App->collisions->checkAttackVsEnemies(rightAttack1H, coordZ);
+		App->audio->PlayFx(attack1SoundId,0);
 			
 	}
 	else if (AnimStatus == ATTACK1_LEFT)
@@ -237,6 +240,7 @@ void ModulePlayer::playCurrentAnimation()
 			App->renderer->Blit(graphics, position.x - correctionX, position.y, &(attack1.GetCurrentFrame()), 1.0f, true); // Punches
 		}
 		App->collisions->checkAttackVsEnemies(leftAttack1H, coordZ);
+		App->audio->PlayFx(attack1SoundId, 0);
 	}
 	else if (AnimStatus == ATTACK2_RIGHT) {
 		SDL_Rect auxRect;
@@ -260,6 +264,7 @@ void ModulePlayer::playCurrentAnimation()
 			inputblock = false;
 		}
 		App->collisions->checkAttackVsEnemies(rightAttack2H, coordZ);
+		App->audio->PlayFx(attack2SoundId, 0);
 
 	}
 	else if (AnimStatus == ATTACK2_LEFT)
@@ -288,6 +293,7 @@ void ModulePlayer::playCurrentAnimation()
 			inputblock = false;
 		}
 		App->collisions->checkAttackVsEnemies(leftAttack2H, coordZ);
+		App->audio->PlayFx(attack2SoundId, 0);
 	}
 }
 void ModulePlayer::checkInputs() 

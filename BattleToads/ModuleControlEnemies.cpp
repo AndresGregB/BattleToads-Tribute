@@ -39,6 +39,7 @@ void ModuleControlEnemies::Update()
 			spawns[i].trigered = false;
 			spawns[i].cleared = true;
 			App->renderer->cameraLocked = false;
+			App->collisions->enemies.clear();
 		}
 		else if (spawns[i].active && spawns[i].trigered && !spawns[i].cleared) {
 			spawningPoint = i;

@@ -39,7 +39,7 @@ bool ModuleSceneInferno::Start()
 	graphics = App->textures->Load("./Sprites/Part_1.png");
 	objects = App->textures->Load("./Sprites/objects.png");
 	App->player->Enable();
-	App->audio->PlayMusic("ken.ogg");
+	App->audio->PlayMusic("./Music/volkmireBackground.ogg");
 	frames = 0;
 	boatH = 0;
 	signo = 1;

@@ -94,7 +94,7 @@ void ModuleCollisions::drawEnemiesBehind()
 }
 update_status ModuleCollisions::PostUpdate()
 {
-	std::list<Enemy*>::const_iterator it2;
+	/*std::list<Enemy*>::const_iterator it2;
 	if (!enemies.empty() && enemies.size() > 2) 
 	{
 		for (it2 = enemies.begin(); it2 != enemies.end(); ++it2)
@@ -106,7 +106,7 @@ update_status ModuleCollisions::PostUpdate()
 			}
 
 		}
-	}
+	}*/
 	
 	return UPDATE_CONTINUE;
 }
