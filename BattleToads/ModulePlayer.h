@@ -36,11 +36,8 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* life = nullptr;
-	Animation idle;
-	Animation walk;
-	Animation attack1;
-	Animation attack2;
-	Animation jump;
+	SDL_Texture* endScreen = nullptr;
+
 
 	iPoint position;
 	
@@ -65,6 +62,14 @@ private:
 	void ModulePlayer::checkInputs();
 	void ModulePlayer::drawLives();
 	void ModulePlayer::updatePlayerHitboxes();
+
+	Animation idle;
+	Animation walk;
+	Animation attack1;
+	Animation attack2;
+	Animation jump;
+	Animation die;
+	Animation end;
 	SDL_Rect previousAttackFrame;
 	SDL_Rect liveEmpty, liveFull;
 	float speedY;

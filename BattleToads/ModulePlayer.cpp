@@ -20,7 +20,7 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	liveFull.w = 8;
 	liveFull.h = 11;
 
-	position.x = 200;
+	position.x = 200;//200
 	position.y = 110;
 	SDL_Rect PHitbox;
 
@@ -84,6 +84,12 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	walk.frames.push_back({ 561, 30, 33, 29 });
 	walk.speed = 0.2f;
 
+	die.frames.push_back({549,118,38,34});
+	die.speed = 0.1;
+
+	end.frames.push_back({0,0,480,360});
+	end.speed = 0.0f;
+
 	jump.frames.push_back({ 415, 167, 46, 25 });
 	AnimStatus = IDLE_RIGHT;
 	jumping = false;
@@ -111,6 +117,7 @@ bool ModulePlayer::Start()
 	attack1SoundId = App->audio->LoadFx("./Music/attack1.ogg");
 	attack2SoundId = App->audio->LoadFx("./Music/attack2.ogg");
 	graphics = App->textures->Load("./Sprites/rash.png");
+	endScreen = App->textures->Load("./Sprites/ending.png");
 	life = App->textures->Load("./Sprites/lifeSprite.png");
 
 	return true;
@@ -134,54 +141,65 @@ bool ModulePlayer::CleanUp()
 // Update
 update_status ModulePlayer::Update()
 {
-	LOG("X: %d\n", position.x);
-	if (AnimStatus != DEAD) {
-		
-		if (!inputblock) 
+	
+		if (AnimStatus != DEAD)
 		{
-			checkInputs();
+
+			if (!inputblock)
+			{
+				checkInputs();
+			}
+			position.y += (int)speedY;
+			// Update player's hitboxes
+			ModulePlayer::updatePlayerHitboxes();
+			if (position.y > floorY || lives <= 0)
+			{
+				// Player died
+				lives = 0;
+				AnimStatus = DEAD;
+			}
+		}
+		else // If player is dead
+		{
+			if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT)
+			{
+				position.x = 200;
+				position.y = 110;
+				App->renderer->camera.x = -3 * position.x + 400;
+				jumping = false;
+				onFloor = true;
+				inputblock = false;
+				coordZ = -1.0;
+				floorY = 120 + coordZ * 10;
+				lives = 5;
+				AnimStatus = IDLE_RIGHT;
+				App->renderer->cameraLocked = false;
+				App->collisions->enemies.clear();
+				App->collisions->enemiesControler->restoreSpawnpoints();
+			}
+
 		}
 		playCurrentAnimation();
-
-		position.y += (int)speedY;
-		// Update player's hitboxes
-		ModulePlayer::updatePlayerHitboxes();
-		
-
-		
-		if (position.y > floorY || lives <= 0)
-		{
-			// Player died
-			AnimStatus = DEAD;
-		}
-	}
-	else // If player is dead
+		drawLives();
+	if(position.x > 2600 && !App->collisions->enemiesControler->checkSpawningPoints()) 
 	{
-		if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT ) 
-		{
-			position.x = 200;
-			position.y = 110;
-			App->renderer->camera.x = -3 * position.x + 400;
-			jumping = false;
-			onFloor = true;
-			coordZ = -1.0;
-			floorY = 120 + coordZ * 10;
-			lives = 5;
-			AnimStatus = IDLE_RIGHT;
-			App->renderer->cameraLocked = false;
-			App->collisions->enemies.clear();
-			App->collisions->enemiesControler->restoreSpawnpoints();
-		}
-		
+		lives = 0;
+		App->renderer->Blit(endScreen, interfaceX-160, -30, &(end.GetCurrentFrame()), 1.0,2,false);
 	}
-	drawLives();
 	return UPDATE_CONTINUE;
 }
 void ModulePlayer::playCurrentAnimation() 
 {
 	App->collisions->drawEnemiesBehind();
 	// Apply animation depending on AnimStatus
-	if (AnimStatus == JUMPING_RIGHT) {
+	if (AnimStatus == DEAD)
+	{
+		if (!onFloor) {
+			position.y += 1.2;
+		}
+		App->renderer->Blit(graphics, position.x, position.y, &(die.GetCurrentFrame()), 1.0f);
+	}
+	else if (AnimStatus == JUMPING_RIGHT) {
 		App->renderer->Blit(graphics, position.x, position.y, &(jump.GetCurrentFrame()), 1.0f); // Jump Right
 	}
 	else if (AnimStatus == JUMPING_LEFT) {
@@ -295,6 +313,7 @@ void ModulePlayer::playCurrentAnimation()
 		App->collisions->checkAttackVsEnemies(leftAttack2H, coordZ);
 		App->audio->PlayFx(attack2SoundId, 0);
 	}
+	
 }
 void ModulePlayer::checkInputs() 
 {
