@@ -1,4 +1,4 @@
-# BattleToads-Tribute
+# <H1> BattleToads-Tribute <H1>
 Battletoads Level 7, Volkmire's Inferno Tribute.
 
 Author: Andrés Gregorio Borrego
