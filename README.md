@@ -9,7 +9,8 @@ This project tries to recreate the 7th level of NES Battletoads: The Volkmire's 
 
 Objective: Reach the end of the level eliminating every Rat in the way!
 
-Controls: 
+Controls:
+
   WASD-> movement
   
   Spacebar -> Jump
