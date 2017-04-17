@@ -51,12 +51,11 @@ update_status ModuleRender::PreUpdate()
 update_status ModuleRender::Update()
 {
 	int speed = 5;
-	// debug camera
 	// Locking camera for map limits
 	// Left limit
 	if (App->player->position.x<150)
 	{
-		cameraLocked = true;
+		lockCamera();
 	}
 	if (App->player->position.x>150 && App->player->position.x<170)
 	{
@@ -65,7 +64,7 @@ update_status ModuleRender::Update()
 	//Right Limit
 	if (App->player->position.x>2500)
 	{
-		cameraLocked = true;
+		lockCamera();
 	}
 	if (App->player->position.x<2500 && App->player->position.x>2470)
 	{
@@ -73,7 +72,7 @@ update_status ModuleRender::Update()
 	}
 
 	if (!cameraLocked) {
-		camera.x = App->player->position.x * -3 + 400;
+		camera.x = -3*App->player->position.x + 400 ;
 	}
 	
 	return UPDATE_CONTINUE;
@@ -139,7 +138,7 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 
 	return ret;
 }
-bool ModuleRender::Blit2(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed,int scale, bool flipH)
+bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed,int scale, bool flipH)
 {
 	bool ret = true;
 	SDL_Rect rect;
@@ -176,4 +175,12 @@ bool ModuleRender::Blit2(SDL_Texture* texture, int x, int y, SDL_Rect* section, 
 
 
 	return ret;
+}
+void ModuleRender::lockCamera() 
+{
+	if (!cameraLocked)
+	{
+		cameraLocked = true;
+		App->player->interfaceX = App->player->position.x;
+	}
 }

@@ -19,9 +19,9 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
-
+	void ModuleRender::lockCamera();
 	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, bool flipH = false);
-	bool Blit2(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed,int scale, bool flipH = false);
+	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed,int scale, bool flipH = false); // with scale
 
 
 public:

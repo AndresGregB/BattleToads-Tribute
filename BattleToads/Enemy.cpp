@@ -117,15 +117,15 @@ void Enemy::Update()
 void Enemy::Draw()
 {
 	if (status == WALK_RIGHT) {
-		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f, 2);
+		App->renderer->Blit(App->collisions->enemiesControler->graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f, 2);
 	}else if (status == WALK_LEFT) {
-		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f, 2, true);
+		App->renderer->Blit(App->collisions->enemiesControler->graphics, position.x, position.y, &(walk.GetCurrentFrame()), 1.0f, 2, true);
 	}
 	else if (status == DYING) {
-		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(death.GetCurrentFrame()), 1.0f, 2);
+		App->renderer->Blit(App->collisions->enemiesControler->graphics, position.x, position.y, &(death.GetCurrentFrame()), 1.0f, 2);
 	}
 	else if (status == ATTACKING_R) {
-		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(attack.GetCurrentFrame()), 1.0f, 2);
+		App->renderer->Blit(App->collisions->enemiesControler->graphics, position.x, position.y, &(attack.GetCurrentFrame()), 1.0f, 2);
 		if (SDL_GetTicks() - attackTimer > 500 && status != DYING)
 		{
 			if (App->collisions->checkAttackHit(attackRH, CoordZ, App->player->playerHitbox, App->player->coordZ)) App->player->takeHit();
@@ -134,7 +134,7 @@ void Enemy::Draw()
 
 	}
 	else if (status == ATTACKING_L) {
-		App->renderer->Blit2(App->collisions->enemiesControler->graphics, position.x, position.y, &(attack.GetCurrentFrame()), 1.0f, 2, true);
+		App->renderer->Blit(App->collisions->enemiesControler->graphics, position.x, position.y, &(attack.GetCurrentFrame()), 1.0f, 2, true);
 		if (SDL_GetTicks() - attackTimer > 500 && status != DYING)
 		{
 			if(App->collisions->checkAttackHit(attackLH, CoordZ, App->player->playerHitbox, App->player->coordZ)) App->player->takeHit();

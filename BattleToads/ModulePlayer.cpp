@@ -94,6 +94,7 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	moveSpeed = 2.1;
 	playerZone = 1;
 	previousAttackFrame.w = 0;
+	interfaceX = position.x;
 
 }
 
@@ -131,6 +132,7 @@ bool ModulePlayer::CleanUp()
 // Update
 update_status ModulePlayer::Update()
 {
+	LOG("X: %d\n", position.x);
 	if (AnimStatus != DEAD) {
 		
 		if (!inputblock) 
@@ -160,6 +162,7 @@ update_status ModulePlayer::Update()
 			jumping = false;
 			onFloor = true;
 			coordZ = -1.0;
+			floorY = 120 + coordZ * 10;
 			lives = 5;
 			AnimStatus = IDLE_RIGHT;
 		}
@@ -467,11 +470,26 @@ void ModulePlayer::drawLives()
 {
 	for (int i = 0; i < 5;i++) 
 	{
-		App->renderer->Blit(life,(position.x-120)+i*10 , 5, &liveEmpty, 1.0f);
+		if (App->renderer->cameraLocked) 
+		{
+			App->renderer->Blit(life, (interfaceX - 120) + i * 10, 5, &liveEmpty, 1.0f);
+		}
+		else 
+		{
+			App->renderer->Blit(life, (position.x - 120) + i * 10, 5, &liveEmpty, 1.0f);
+		}
+		
 	}
 	for (int i = 0; i < lives; i++)
 	{
-		App->renderer->Blit(life, (position.x - 120) + i * 10, 5, &liveFull, 1.0f);
+		if (App->renderer->cameraLocked)
+		{
+			App->renderer->Blit(life, (interfaceX - 120) + i * 10, 5, &liveFull, 1.0f);
+		}
+		else
+		{
+			App->renderer->Blit(life, (position.x - 120) + i * 10, 5, &liveFull, 1.0f);
+		}
 	}
 }
 void ModulePlayer::takeHit()

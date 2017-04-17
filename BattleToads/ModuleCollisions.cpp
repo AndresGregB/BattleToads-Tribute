@@ -65,6 +65,8 @@ bool ModuleCollisions::CleanUp()
 
 	levelLayout.clear();
 	enemies.clear();
+	enemiesControler->Clear();
+	delete enemiesControler;
 	
 	return true;
 }
@@ -99,6 +101,7 @@ update_status ModuleCollisions::PostUpdate()
 		{
 			if (!(*it2)->active && it2 != enemies.begin() && it2 != enemies.end())
 			{
+				(*it2)->Clear();
 				it2 = enemies.erase(it2);
 			}
 

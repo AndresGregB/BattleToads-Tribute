@@ -34,8 +34,6 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-public:
-
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* life = nullptr;
 	Animation idle;
@@ -49,6 +47,7 @@ public:
 
 	int playerZone;
 	int lives;
+	int interfaceX;
 	Hitbox* playerHitbox;
 	Hitbox* rightAttack1H;
 	Hitbox* leftAttack1H;
