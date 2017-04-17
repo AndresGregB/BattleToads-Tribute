@@ -11,7 +11,11 @@ Objective: Reach the end of the level eliminating every Rat in the way!
 
 Controls: 
   WASD-> movement
+  
   Spacebar -> Jump
+  
   K -> Main Attack
+  
   L -> Secondary attack
+  
   Enter-> Re-start when dead / Ends the level.
