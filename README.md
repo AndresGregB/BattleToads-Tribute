@@ -1,8 +1,4 @@
-# <H1> BattleToads-Tribute <H1>
-Battletoads Level 7, Volkmire's Inferno Tribute.
-
 Author: Andrés Gregorio Borrego
-
 
 This project tries to recreate the 7th level of NES Battletoads: The Volkmire's Inferno. 
 
