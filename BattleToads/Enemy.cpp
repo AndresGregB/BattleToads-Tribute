@@ -58,6 +58,8 @@ void Enemy::Update()
 	{
 		active = false;
 		LOG("Erasing enemy");
+		App->collisions->enemiesControler->enemyDefeated();
+
 	}
 	if (active && status != DYING) {
 		if ( calculateDistancetoPlayer() > 25.0f)

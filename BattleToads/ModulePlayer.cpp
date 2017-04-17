@@ -159,12 +159,16 @@ update_status ModulePlayer::Update()
 		{
 			position.x = 200;
 			position.y = 110;
+			App->renderer->camera.x = -3 * position.x + 400;
 			jumping = false;
 			onFloor = true;
 			coordZ = -1.0;
 			floorY = 120 + coordZ * 10;
 			lives = 5;
 			AnimStatus = IDLE_RIGHT;
+			App->renderer->cameraLocked = false;
+			App->collisions->enemies.clear();
+			App->collisions->enemiesControler->restoreSpawnpoints();
 		}
 		
 	}

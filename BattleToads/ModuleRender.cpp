@@ -57,7 +57,7 @@ update_status ModuleRender::Update()
 	{
 		lockCamera();
 	}
-	if (App->player->position.x>150 && App->player->position.x<170)
+	if (App->player->position.x>150 && App->player->position.x<170 && !App->collisions->enemiesControler->checkSpawningPoints())
 	{
 		cameraLocked = false;
 	}
@@ -66,7 +66,7 @@ update_status ModuleRender::Update()
 	{
 		lockCamera();
 	}
-	if (App->player->position.x<2500 && App->player->position.x>2470)
+	if (App->player->position.x<2500 && App->player->position.x>2470 && !App->collisions->enemiesControler->checkSpawningPoints())
 	{
 		cameraLocked = false;
 	}

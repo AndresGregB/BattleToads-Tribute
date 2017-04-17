@@ -25,10 +25,15 @@ public:
 	void ModuleControlEnemies::Update();
 	void ModuleControlEnemies::Start();
 	void ModuleControlEnemies::Clear();
+	bool ModuleControlEnemies::checkSpawningPoints();
 	void ModuleControlEnemies::PostUpdate();
+	void ModuleControlEnemies::enemyDefeated();
+	void ModuleControlEnemies::restoreSpawnpoints();
 
 private:
 	SpawnPoint spawns[6];
+	void ModuleControlEnemies::spawnEnemies(int spawningPoint);
+	int spawningPoint;
 };
 #endif
 
