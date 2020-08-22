@@ -8,9 +8,7 @@ Description: This game was created originaly created for the NES and got some re
 
 Objective: Reach the end of the level eliminating every Rat in the way!
 
-Controls:
-
-|   |   |
+| Controls  |    |
 |---|---|
 |WASD  | movement |
 |SpaceBar | Jump  |
@@ -46,4 +44,14 @@ Docker
 
 ```
 make docker-compile
+```
+
+```
+make docker-run
+```
+
+or
+
+```
+make docker-run-mac
 ```
