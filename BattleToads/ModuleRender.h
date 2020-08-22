@@ -8,26 +8,27 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class ModuleRender : public Module
+class ModuleRender:public Module
 {
 public:
-	ModuleRender();
-	~ModuleRender();
+  ModuleRender ();
+  ~ModuleRender ();
 
-	bool Init();
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
-	bool CleanUp();
-	void ModuleRender::lockCamera();
-	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed, bool flipH = false);
-	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed,int scale, bool flipH = false); // with scale
+  bool Init ();
+  update_status PreUpdate ();
+  update_status Update ();
+  update_status PostUpdate ();
+  bool CleanUp ();
+  void lockCamera ();
+  bool Blit (SDL_Texture * texture, int x, int y, SDL_Rect * section,
+	     float speed, bool flipH = false);
+  bool Blit (SDL_Texture * texture, int x, int y, SDL_Rect * section, float speed, int scale, bool flipH = false);	// with scale
 
 
 public:
-	SDL_Renderer* renderer = nullptr;
-	SDL_Rect camera;
-	bool cameraLocked;
+    SDL_Renderer * renderer = nullptr;
+  SDL_Rect camera;
+  bool cameraLocked;
 };
 
 #endif // __MODULERENDER_H__

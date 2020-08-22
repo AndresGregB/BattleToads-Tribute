@@ -10,76 +10,76 @@
 struct SDL_Texture;
 enum anim_status
 {
-	IDLE_RIGHT,
-	IDLE_LEFT,
-	WALKING_RIGHT,
-	WALKING_LEFT,
-	JUMPING,
-	ATTACKING,
-	JUMPING_RIGHT,
-	JUMPING_LEFT,
-	DEAD,
-	ATTACK1_RIGHT,
-	ATTACK1_LEFT,
-	ATTACK2_RIGHT,
-	ATTACK2_LEFT
+  IDLE_RIGHT,
+  IDLE_LEFT,
+  WALKING_RIGHT,
+  WALKING_LEFT,
+  JUMPING,
+  ATTACKING,
+  JUMPING_RIGHT,
+  JUMPING_LEFT,
+  DEAD,
+  ATTACK1_RIGHT,
+  ATTACK1_LEFT,
+  ATTACK2_RIGHT,
+  ATTACK2_LEFT
 };
-class ModulePlayer : public Module
+class ModulePlayer:public Module
 {
 public:
-	ModulePlayer(bool start_enabled = true);
-	~ModulePlayer();
+  ModulePlayer (bool start_enabled = true);
+   ~ModulePlayer ();
 
-	bool Start();
-	update_status Update();
-	bool CleanUp();
+  bool Start ();
+  update_status Update ();
+  bool CleanUp ();
 
-	SDL_Texture* graphics = nullptr;
-	SDL_Texture* life = nullptr;
-	SDL_Texture* endScreen = nullptr;
+  SDL_Texture *graphics = nullptr;
+  SDL_Texture *life = nullptr;
+  SDL_Texture *endScreen = nullptr;
 
 
-	iPoint position;
-	
+  iPoint position;
 
-	int playerZone;
-	int lives;
-	int interfaceX;
-	Hitbox* playerHitbox;
-	Hitbox* rightAttack1H;
-	Hitbox* leftAttack1H;
-	Hitbox* rightAttack2H;
-	Hitbox* leftAttack2H;
 
-	anim_status AnimStatus;
-	bool jumping, onFloor;
-	float floorY;
-	float coordZ;
-	void ModulePlayer::takeHit();
+  int playerZone;
+  int lives;
+  int interfaceX;
+  Hitbox *playerHitbox;
+  Hitbox *rightAttack1H;
+  Hitbox *leftAttack1H;
+  Hitbox *rightAttack2H;
+  Hitbox *leftAttack2H;
+
+  anim_status AnimStatus;
+  bool jumping, onFloor;
+  float floorY;
+  float coordZ;
+  void takeHit ();
 
 private:
-	void ModulePlayer::playCurrentAnimation();
-	void ModulePlayer::checkInputs();
-	void ModulePlayer::drawLives();
-	void ModulePlayer::updatePlayerHitboxes();
+  void playCurrentAnimation ();
+  void checkInputs ();
+  void drawLives ();
+  void updatePlayerHitboxes ();
 
-	Animation idle;
-	Animation walk;
-	Animation attack1;
-	Animation attack2;
-	Animation jump;
-	Animation die;
-	Animation end;
-	SDL_Rect previousAttackFrame;
-	SDL_Rect liveEmpty, liveFull;
-	float speedY;
-	float timeAttack1;
-	float inmunityTime;
-	int jumpSpeed;
-	int moveSpeed;
-	bool inputblock;
-	unsigned int attack1SoundId;
-	unsigned int attack2SoundId;
+  Animation idle;
+  Animation walk;
+  Animation attack1;
+  Animation attack2;
+  Animation jump;
+  Animation die;
+  Animation end;
+  SDL_Rect previousAttackFrame;
+  SDL_Rect liveEmpty, liveFull;
+  float speedY;
+  float timeAttack1;
+  float inmunityTime;
+  int jumpSpeed;
+  float moveSpeed;
+  bool inputblock;
+  unsigned int attack1SoundId;
+  unsigned int attack2SoundId;
 };
 
 #endif // __MODULEPLAYER_H__

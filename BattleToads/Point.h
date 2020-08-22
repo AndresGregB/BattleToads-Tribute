@@ -5,96 +5,97 @@
 #ifndef __POINT_H__
 #define __POINT_H__
 
-template<class TYPE>
-class Point
+template < class TYPE > class Point
 {
 public:
 
-	TYPE x, y;
+  TYPE x, y;
 
-	Point()
-	{}
-	Point(TYPE x, TYPE y) : x(x), y(y)
-	{}
+  Point ()
+  {
+  }
+Point (TYPE x, TYPE y):x (x), y (y)
+  {
+  }
 
-	// Operators ------------------------------------------------
-	Point operator -(const Point &v) const
-	{
-		p2Vector2 r;
+  // Operators ------------------------------------------------
+  Point operator - (const Point & v) const
+  {
+    Point r;
 
-		r.x = x - v.x;
-		r.y = y - v.y;
+      r.x = x - v.x;
+      r.y = y - v.y;
 
-		return(r);
-	}
+      return (r);
+  }
 
-	Point operator + (const Point &v) const
-	{
-		p2Vector2 r;
+  Point operator + (const Point & v) const
+  {
+    Point r;
 
-		r.x = x + v.x;
-		r.y = y + v.y;
+      r.x = x + v.x;
+      r.y = y + v.y;
 
-		return(r);
-	}
+      return (r);
+  }
 
-	const Point& operator -=(const Point &v)
-	{
-		x -= v.x;
-		y -= v.y;
+  const Point & operator -= (const Point & v)
+  {
+    x -= v.x;
+    y -= v.y;
 
-		return(*this);
-	}
+    return (*this);
+  }
 
-	const Point& operator +=(const Point &v)
-	{
-		x += v.x;
-		y += v.y;
+  const Point & operator += (const Point & v)
+  {
+    x += v.x;
+    y += v.y;
 
-		return(*this);
-	}
+    return (*this);
+  }
 
-	bool operator ==(const Point& v) const
-	{
-		return (x == v.x && y == v.y);
-	}
+  bool operator == (const Point & v) const
+  {
+    return (x == v.x && y == v.y);
+  }
 
-	bool operator !=(const Point& v) const
-	{
-		return (x != v.x || y != v.y);
-	}
+  bool operator != (const Point & v) const
+  {
+    return (x != v.x || y != v.y);
+  }
 
-	// Utils ------------------------------------------------
-	bool IsZero() const
-	{
-		return (x == 0 && y == 0);
-	}
+  // Utils ------------------------------------------------
+  bool IsZero () const
+  {
+    return (x == 0 && y == 0);
+  }
 
-	Point& SetToZero()
-	{
-		x = y = 0;
-		return(*this);
-	}
+  Point & SetToZero ()
+  {
+    x = y = 0;
+    return (*this);
+  }
 
-	Point& Negate()
-	{
-		x = -x;
-		y = -y;
+  Point & Negate ()
+  {
+    x = -x;
+    y = -y;
 
-		return(*this);
-	}
+    return (*this);
+  }
 
-	// Distances ---------------------------------------------
-	TYPE DistanceTo(const Point& v) const
-	{
-		TYPE fx = x - v.x;
-		TYPE fy = y - v.y;
+  // Distances ---------------------------------------------
+  TYPE DistanceTo (const Point & v) const
+  {
+    TYPE fx = x - v.x;
+    TYPE fy = y - v.y;
 
-		return sqrt((fx*fx) + (fy*fy));
-	}
+      return sqrt ((fx * fx) + (fy * fy));
+  }
 };
 
-typedef Point<int> iPoint;
-typedef Point<float> fPoint;
+typedef Point < int >iPoint;
+typedef Point < float >fPoint;
 
 #endif // __POINT_H__

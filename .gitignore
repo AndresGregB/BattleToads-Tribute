@@ -251,3 +251,11 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+
+**/*.o
+.config
+BattleToads/Main
+
+.vscode
+**/Main.dSYM

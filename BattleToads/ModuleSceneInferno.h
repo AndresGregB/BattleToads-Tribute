@@ -7,38 +7,38 @@
 
 struct SDL_Texture;
 
-struct movingPlantform 
+struct movingPlantform
 {
-	Hitbox* platformHitbox;
-	float speed = 1.0f;
-	float amplitude;
-	float variation;
-	iPoint position;
+  Hitbox *platformHitbox;
+  float speed = 1.0f;
+  float amplitude;
+  float variation;
+  iPoint position;
 };
 
-class ModuleSceneInferno : public Module
+class ModuleSceneInferno:public Module
 {
 public:
-	ModuleSceneInferno(bool start_enabled = true);
-	~ModuleSceneInferno();
+  ModuleSceneInferno (bool start_enabled = true);
+   ~ModuleSceneInferno ();
 
-	bool Start();
-	update_status Update();
-	bool CleanUp();
-	void ModuleSceneInferno::updatePlatform(movingPlantform* plat);
+  bool Start ();
+  update_status Update ();
+  bool CleanUp ();
+  void updatePlatform (movingPlantform * plat);
 
 public:
 
-	SDL_Texture* graphics = nullptr;
-	SDL_Texture* objects = nullptr;
-	SDL_Rect background;
-	SDL_Rect platformVisual;
-	Animation flag;
-	Animation girl;
-	int boatH;
-	int frames;
-	int signo;
-	movingPlantform* platform1, *platform2, *platform3;
+    SDL_Texture * graphics = nullptr;
+  SDL_Texture *objects = nullptr;
+  SDL_Rect background;
+  SDL_Rect platformVisual;
+  Animation flag;
+  Animation girl;
+  int boatH;
+  int frames;
+  int signo;
+  movingPlantform *platform1, *platform2, *platform3;
 };
 
 #endif

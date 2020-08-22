@@ -5,81 +5,88 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModuleFadeToBlack.h"
-#include "ModuleSceneKen.h"
 #include "ModuleSceneInferno.h"
 #include "ModulePlayer.h"
 #include "ModuleCollisions.h"
 
 
-Application::Application()
+Application::Application ()
 {
-	// Order matters: they will init/start/pre/update/post in this order
-	modules.push_back(input = new ModuleInput());
-	modules.push_back(window = new ModuleWindow());
+  // Order matters: they will init/start/pre/update/post in this order
+  modules.push_back (input = new ModuleInput ());
+  modules.push_back (window = new ModuleWindow ());
 
-	modules.push_back(renderer = new ModuleRender());
-	modules.push_back(textures = new ModuleTextures());
-	modules.push_back(audio = new ModuleAudio());
-	// Game Modules
-	modules.push_back(scene_ken = new ModuleSceneKen(false));
-	modules.push_back(scene_inferno = new ModuleSceneInferno(false));
-	modules.push_back(fade = new ModuleFadeToBlack());
-	modules.push_back(player = new ModulePlayer(false));
-	modules.push_back(collisions = new ModuleCollisions());
+  modules.push_back (renderer = new ModuleRender ());
+  modules.push_back (textures = new ModuleTextures ());
+  modules.push_back (audio = new ModuleAudio ());
+  // Game Modules
+  modules.push_back (scene_inferno = new ModuleSceneInferno (false));
+  modules.push_back (fade = new ModuleFadeToBlack ());
+  modules.push_back (player = new ModulePlayer (false));
+  modules.push_back (collisions = new ModuleCollisions ());
 }
 
-Application::~Application()
+Application::~Application ()
 {
-	for(std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
-		RELEASE(*it);
+  for (std::list < Module * >::iterator it = modules.begin ();
+       it != modules.end (); ++it)
+    RELEASE (*it);
 }
 
-bool Application::Init()
+bool
+Application::Init ()
 {
-	bool ret = true;
+  bool ret = true;
 
-	for(std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->Init(); // we init everything, even if not anabled
+  for (std::list < Module * >::iterator it = modules.begin ();
+       it != modules.end () && ret; ++it)
+    ret = (*it)->Init ();	// we init everything, even if not anabled
 
-	for(std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-	{
-		if((*it)->IsEnabled() == true)
-			ret = (*it)->Start();
-	}
+  for (std::list < Module * >::iterator it = modules.begin ();
+       it != modules.end () && ret; ++it)
+    {
+      if ((*it)->IsEnabled () == true)
+	ret = (*it)->Start ();
+    }
 
-	// Start the first scene --
-	fade->FadeToBlack(scene_inferno, nullptr, 3.0f);
+  // Start the first scene --
+  fade->FadeToBlack (scene_inferno, nullptr, 3.0f);
 
-	return ret;
+  return ret;
 }
 
-update_status Application::Update()
+update_status Application::Update ()
 {
-	update_status ret = UPDATE_CONTINUE;
+  update_status
+    ret = UPDATE_CONTINUE;
 
-	for(std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		if((*it)->IsEnabled() == true) 
-			ret = (*it)->PreUpdate();
+  for (std::list < Module * >::iterator it = modules.begin ();
+       it != modules.end () && ret == UPDATE_CONTINUE; ++it)
+    if ((*it)->IsEnabled () == true)
+      ret = (*it)->PreUpdate ();
 
-	for(std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		if((*it)->IsEnabled() == true) 
-			ret = (*it)->Update();
+  for (std::list < Module * >::iterator it = modules.begin ();
+       it != modules.end () && ret == UPDATE_CONTINUE; ++it)
+    if ((*it)->IsEnabled () == true)
+      ret = (*it)->Update ();
 
-	for(std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		if((*it)->IsEnabled() == true) 
-			ret = (*it)->PostUpdate();
+  for (std::list < Module * >::iterator it = modules.begin ();
+       it != modules.end () && ret == UPDATE_CONTINUE; ++it)
+    if ((*it)->IsEnabled () == true)
+      ret = (*it)->PostUpdate ();
 
-	return ret;
+  return ret;
 }
 
-bool Application::CleanUp()
+bool
+Application::CleanUp ()
 {
-	bool ret = true;
+  bool ret = true;
 
-	for(std::list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
-		if((*it)->IsEnabled() == true) 
-			ret = (*it)->CleanUp();
+  for (std::list < Module * >::reverse_iterator it = modules.rbegin ();
+       it != modules.rend () && ret; ++it)
+    if ((*it)->IsEnabled () == true)
+      ret = (*it)->CleanUp ();
 
-	return ret;
+  return ret;
 }
-
