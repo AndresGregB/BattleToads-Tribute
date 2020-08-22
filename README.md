@@ -19,3 +19,18 @@ Controls:
   L -> Secondary attack
   
   Enter-> Re-start when dead / Ends the level.
+
+
+Docker
+
+Compile
+
+```
+make docker-compile
+```
+
+Run
+
+```
+make run
+```

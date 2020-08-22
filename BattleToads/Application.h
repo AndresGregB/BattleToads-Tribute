@@ -1,7 +1,7 @@
 #ifndef __APPLICATION_CPP__
 #define __APPLICATION_CPP__
 
-#include<list>
+#include <list>
 #include "Globals.h"
 #include "Module.h"
 #include "ModulePlayer.h"
@@ -20,31 +20,31 @@ class Application
 {
 public:
 
-	Application();
-	~Application();
+  Application ();
+  ~Application ();
 
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+  bool Init ();
+  update_status Update ();
+  bool CleanUp ();
 
 public:
-	ModuleRender* renderer;
-	ModuleWindow* window;
-	ModuleTextures* textures;
-	ModuleInput* input;
-	ModuleAudio* audio;
-	ModuleFadeToBlack* fade;
-	ModulePlayer* player;
-	ModuleSceneKen* scene_ken;
-	ModuleSceneInferno* scene_inferno;
-	ModuleCollisions* collisions;
+    ModuleRender * renderer;
+  ModuleWindow *window;
+  ModuleTextures *textures;
+  ModuleInput *input;
+  ModuleAudio *audio;
+  ModuleFadeToBlack *fade;
+  ModulePlayer *player;
+  ModuleSceneKen *scene_ken;
+  ModuleSceneInferno *scene_inferno;
+  ModuleCollisions *collisions;
 
 private:
 
-	std::list<Module*> modules;
+    std::list < Module * >modules;
 
 };
 
-extern Application* App;
+extern Application *App;
 
 #endif // __APPLICATION_CPP__
