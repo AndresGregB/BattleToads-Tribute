@@ -76,7 +76,7 @@ private:
   float timeAttack1;
   float inmunityTime;
   int jumpSpeed;
-  int moveSpeed;
+  float moveSpeed;
   bool inputblock;
   unsigned int attack1SoundId;
   unsigned int attack2SoundId;

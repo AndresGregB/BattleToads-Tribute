@@ -25,19 +25,22 @@ Tested on Ubuntu 20.04
 Dependencies
 
 ```
-make dep
+make dep compile run
 ```
 
-Compile
+
+# Mac
 
 ```
-make compile
+make dep-mac compile run
 ```
 
-Run
+# Docker
+
+Allow access from localhost
 
 ```
-make run
+xhost + 127.0.0.1
 ```
 
 Docker
@@ -49,9 +52,15 @@ make docker-compile
 ```
 make docker-run
 ```
-
 or
 
 ```
 make docker-run-mac
 ```
+
+
+# Ref
+
+* [x11-windows-within-docker-on-mac](https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb)
+
+* [running-a-docker-soundbox-on-mac](https://devops.datenkollektiv.de/running-a-docker-soundbox-on-mac.html)

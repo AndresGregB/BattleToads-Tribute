@@ -41,7 +41,7 @@ public:
   int calculateDistancetoPlayer ();
 
 private:
-  int moveSpeed;
+  float moveSpeed;
   enemyAnim status;
 
 

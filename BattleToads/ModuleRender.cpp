@@ -40,7 +40,7 @@ ModuleRender::Init ()
     }
 
   return ret;
-}
+} 
 
 update_status ModuleRender::PreUpdate ()
 {

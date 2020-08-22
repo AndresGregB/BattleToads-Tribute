@@ -79,6 +79,7 @@ main (int argc, char **argv)
 
 	  break;
 
+case MAIN_EXIT: break;
 	}
     }
 

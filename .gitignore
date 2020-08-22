@@ -256,3 +256,6 @@ paket-files/
 **/*.o
 .config
 BattleToads/Main
+
+.vscode
+**/Main.dSYM
