@@ -16,6 +16,7 @@ else
 endif
 
 clean:
+	rm -rf .config && \
 	cd BattleToads && \
 	rm -f *.o *~ Main
 
@@ -27,6 +28,9 @@ run:
 	cd BattleToads && \
 	./Main 	
 
+dep:
+	sudo apt install -y libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev
+
 format:
 	find BattleToads -name '*.cpp' -exec indent {} \;
 	find BattleToads -name '*.h' -exec indent {} \;
@@ -37,13 +41,13 @@ docker-build:
 docker-compile:	docker-build
 	docker run -v $(PWD):/home/docker -ti sdl-compiler make compile
 
-args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
 docker-run:
 	docker run --net host \
 	-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+	--volume=/run/user/1000/pulse:/run/user/1000/pulse \
 	-v "$(PWD):/home/docker" \
 	sdl-compiler \
-	$(args)
+	make run
 
 docker-mac-run:
 	docker run --net host -e DISPLAY=docker.for.mac.host.internal:0 \

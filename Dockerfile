@@ -2,8 +2,10 @@ FROM ubuntu:20.04
 
 ENV TZ=America/Sao_Paulo
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y make xterm sudo build-essential \
-libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev indent
+libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev pulseaudio-utils indent
 
+ENV SDL_AUDIODRIVER=PulseAudio
+COPY pulse-client.conf /etc/pulse/client.conf
 
 ARG USER=docker
 ARG UID=1000
